@@ -2,22 +2,14 @@
     <section id='foot-guide' v-if="$route.meta.hasMenu">
         <section @click = "gotoAddress({path: '/home'})" class="guide_item">
         <!-- check router path to display correct background img -->
-        	<div v-bind:class="[($route.path.indexOf('home') !== -1 || $route.path.indexOf('search') !== -1 ||$route.path=='/') ? 'index_icon_active' : 'index_icon']"><span>首页</span></div>
+        	<div v-bind:class="[($route.path.indexOf('home') !== -1 || $route.path.indexOf('search') !== -1 ||$route.path=='/') ? 'index_icon_active' : 'index_icon']"><span>主页</span></div>
         </section>
         <section @click = "gotoAddress({path: '/stuff'})" class="guide_item">
-        	<div v-bind:class="[$route.path.indexOf('stuff') !== -1 ? 'ticket_icon_active' : 'ticket_icon']"><span>好券</span></div>
-        </section>
-        <section  class="guide_item" v-on:click='pop'>
-        	<div v-bind:class="[$route.path.indexOf('order') !== -1 ? 'menu_icon_active' : 'menu_icon']"><span>清单</span></div>
-        </section>
-        <section  class="guide_item" v-on:click='pop'>
-        	<div v-bind:class="[$route.path.indexOf('goods') !== -1 ? 'stuff_icon_active' : 'stuff_icon']"><span>好物</span></div>
+        	<div v-bind:class="[$route.path.indexOf('stuff') !== -1 ? 'ticket_icon_active' : 'ticket_icon']"><span>预约</span></div>
         </section>
         <section @click = "gotoAddress('/profile')" class="guide_item">
             <div v-bind:class="[$route.path.indexOf('profile') !== -1 ? 'profile_icon_active' : 'profile_icon']"><span>我的</span></div>
         </section>
-
-        <error-message v-bind="{pastle, message:'功能正在开发'}"></error-message>
     </section>
 </template>
 
@@ -91,19 +83,19 @@
   }
   
   .index_icon_active {
-    background: url('../../static/images/footer/home-active.png') no-repeat;
+    background: url('../../static/images/footer/mainIndex-active.png') no-repeat;
   }
   
   .index_icon {
-    background: url('../../static/images/footer/home-normal.png') no-repeat;
+    background: url('../../static/images/footer/mainIndex-normal.png') no-repeat;
   }
   
   .ticket_icon_active {
-    background: url('../../static/images/footer/tickets-active.png') no-repeat;
+    background: url('../../static/images/footer/subscribe-active.png') no-repeat;
   }
   
   .ticket_icon {
-    background: url('../../static/images/footer/tickets-normal.png') no-repeat;
+    background: url('../../static/images/footer/subscribe-normal.png') no-repeat;
   }
   
   .menu_icon_active {
