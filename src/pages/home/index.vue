@@ -1,7 +1,7 @@
 <template>
     <div>
-      <search-module @searching="searchKey" ref="searchModule" @setErrorMessage="setErrorMessage"></search-module>
-      <good-list ref="goodsList" @setErrorMessage="setErrorMessage"></good-list>
+      <!-- <search-module @searching="searchKey" ref="searchModule" @setErrorMessage="setErrorMessage"></search-module> -->
+      <!-- <good-list ref="goodsList" @setErrorMessage="setErrorMessage"></good-list> -->
       <error-message v-bind="{pastle: pastle,message: message}"></error-message>
     </div>
                           
@@ -14,8 +14,8 @@
     import utils from '../../config/utils'
     import ApiControl from '../../config/envConfig.home'
     import getLoginUri from '../../config/loginConfig'
-    import searchModule from '../../components/search'
-    import goodList from '../../components/goodlist/goodlist'
+    // import searchModule from '../../components/search'
+    // import goodList from '../../components/goodlist/goodlist'
     import { mapState,mapMutations } from 'vuex';
     export default {
         name: 'home',

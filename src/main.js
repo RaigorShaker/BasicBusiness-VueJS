@@ -4,8 +4,8 @@ import routes from './router/router'
 import store from './vuex';
 import axios from 'axios'
 import MintUI from 'mint-ui'
-import 'mint-ui/lib/style.css'
-import footGuide from './components/footer/footGuide'
+import './static/style/style.css'
+// import footGuide from './components/footer/footGuide'
 import errorMessage from './components/requestError'
 import { Picker } from 'mint-ui';
 import { Popup } from 'mint-ui';
@@ -15,7 +15,7 @@ Vue.component(Popup.name, Popup);
 Vue.prototype.$ajax = axios
 Vue.use(VueRouter)
 Vue.use(MintUI)
-Vue.component('footGuide', footGuide)
+// Vue.component('footGuide', footGuide)
 Vue.component('errorMessage', errorMessage)
 // Vue.component('VueImgInputer', VueImgInputer)
 const router = new VueRouter({
