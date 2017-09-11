@@ -18,6 +18,8 @@ const partnerRule = r => require.ensure([], () => r(require('../pages/partnerRul
 const review = r => require.ensure([], () => r(require('../pages/review')), 'review')
 const join = r => require.ensure([], () => r(require('../pages/joinPartner')), 'join')
 const guide = r => require.ensure([], () => r(require('../pages/guide')), 'guide')
+
+const demo =r => require.ensure([], () => r(require('../pages/demo')), 'demo')
 export default [{
     path: '/',
     component: App,
@@ -109,6 +111,13 @@ export default [{
     {
         path: '/guide',
         component: guide
+    },
+    {
+        path: '/demo',
+        component: demo,
+        meta: {
+            hasMenu: true
+        }
     },
     {
         path: '/join',
