@@ -1,10 +1,30 @@
 <template>
-    <div>
-      <!-- <search-module @searching="searchKey" ref="searchModule" @setErrorMessage="setErrorMessage"></search-module> -->
-      <!-- <good-list ref="goodsList" @setErrorMessage="setErrorMessage"></good-list> -->
-      <error-message v-bind="{pastle: pastle,message: message}"></error-message>
-    </div>
-                          
+    <div class="main-index">
+        <div class="message">
+            <img src="../../static/images/mainIndex/message-icon.png"/><span>消息</span>
+        </div>
+        <div class="banner">
+            This is Banner area
+        </div>
+        <div class="product">
+            <div class="product-first">
+                <div class="product-classroom">
+
+                </div>
+                <div class="product-teacher">
+
+                </div>
+            </div>
+            <div class="product-second">
+                <div class="product-lesson">
+
+                </div>
+                <div class="product-joinus">
+
+                </div>
+            </div>
+        </div>
+    </div>                         
 </template>
 
 <script>
@@ -29,8 +49,7 @@
             }
         },
         components: {
-            searchModule,
-            goodList
+
         },
         methods: {
             ...mapMutations([
@@ -78,13 +97,80 @@
             document.title = "我有好物"
             var pageId = this.$route.query.pageId
             this.title = this.$route.query.title == undefined ? '我有好物' : this.$route.query.title
-            var list = [];
-            this.resetGoodsList(list);
         },
         mounted() {}
     }
 </script>
 
 <style lang="less">
-
+    .main-index{
+        width: 100%;
+        height: 100%;
+        background: #f6ab2c;   
+        background:#f6ab2c;  
+        background:-moz-linear-gradient(top, #f6ab2c, rgba(173, 90, 34, 0.5));  
+        background:-webkit-gradient(linear, 0 0, 0 bottom, from(#f6ab2c), to(rgba(173, 90, 34, 0.9)));  
+        background:-o-linear-gradient(top, #f6ab2c, rgba(173, 90, 34, 0.5));
+        filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#f6ab2c, endColorstr=#ad5a22);
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#f6ab2c, endColorstr=#ad5a22)";
+        color: #fff;
+        .message{
+            margin-left: 11px;
+            padding-top: 20px;
+            margin-bottom: 22px;
+            img{
+                width: 20px;
+                height: 14px;
+                vertical-align: middle;
+                padding-right: 5px;
+            }
+            span{
+                line-height: 14px;
+                font-size: 14px;
+                font-weight: bold;
+                color: #fff;
+            }
+        }
+        .banner{
+            height: 186px;
+            margin: 0 8px 17px 8px;
+        }
+        .product{
+            .product-first{
+                width: 100%;
+                margin-bottom: 9px;
+                .product-classroom{
+                    display: inline-block;
+                    width: calc(~"(100% - 25px)/2");
+                    height: 160.5px;
+                    background: #fff;
+                    margin-left: 8px;
+                    margin-right: 5px;
+                }
+                .product-teacher{
+                    display: inline-block;
+                    width: calc(~"(100% - 25px)/2");
+                    height: 160.5px;
+                    background: #fff;
+                }
+            }
+            .product-second{
+                width: 100%;
+                .product-lesson{
+                    display: inline-block;
+                    width: calc(~"(100% - 25px)/2");
+                    height: 160.5px;
+                    background: #fff;
+                    margin-left: 8px;
+                    margin-right: 5px;
+                }
+                .product-joinus{
+                    display: inline-block;
+                    width: calc(~"(100% - 25px)/2");
+                    height: 160.5px;
+                    background: #fff;
+                }
+            }
+        }
+    }
 </style>

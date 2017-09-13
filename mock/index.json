@@ -1,0 +1,37 @@
+{
+  "code": 0,
+  "mes": "ok",
+  "data": {
+    "banner_list": {
+      "banner_1": {
+        "pic": "/pic/2017-09-05/春季活动/01.jpg",
+        "url": "www.baidu.com"
+      },
+      "banner_2": {
+        "pic": "/pic/2017-09-05/春季活动/02.jpg",
+        "url": "www.baidu.com"
+      },
+      "banner_3": {
+        "pic": "/pic/2017-09-05/春季活动/01.jpg",
+        "url": "www.baidu.com"
+      },
+      "banner_4": {
+        "pic": "/pic/2017-09-05/春季活动/02.jpg",
+        "url": "www.baidu.com"
+      }
+    },
+    "all_teacher": 80,
+    "all_class": 56,
+    "all_member": 2150,
+    "acti_list": {
+      "acti_1": {
+        "acti_pic": "/pic/2017-09-05/春季活动/01.jpg",
+        "acti": "春季活动可以领取优惠券"
+      },
+      "acti_2": {
+        "acti_pic": "/pic/2017-09-05/春季活动/01.jpg",
+        "acti": "可以领取优惠券"
+      }
+    }
+  }
+}

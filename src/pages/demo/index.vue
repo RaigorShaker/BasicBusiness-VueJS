@@ -1,6 +1,14 @@
 <!-- 合伙人规则页面 -->
 <template>
 	<div>
+    <mt-swipe :show-indicators="false" class="banner" :auto="0">
+      <div class="banner-container" v-for="item in swipItems">
+        <mt-swipe-item><img :src="item.img"/></mt-swipe-item>
+      </div>
+<!--       <mt-swipe-item>1</mt-swipe-item>
+      <mt-swipe-item>2</mt-swipe-item>
+      <mt-swipe-item>3</mt-swipe-item> -->
+    </mt-swipe>
     <mt-button @click.native="handleClick">按钮</mt-button>
     <mt-popup v-model="popupVisible" class="popup-control" position="bottom" pop-transition="popup-fade">
       <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
@@ -34,7 +42,22 @@ import ApiControl from '../../config/envConfig.home'
                   className: 'slot3',
                   textAlign: 'left'
                 }
-              ]
+            ],
+        swipItems: [
+          {
+            img: 'https://qn-act.qbcdn.com/assistant/t-shirt.jpg',
+          },
+          {
+            img: 'https://qn-act.qbcdn.com/assistant/t-shirt.jpg',
+          },
+          {
+            img: 'https://qn-act.qbcdn.com/assistant/t-shirt.jpg',
+          },
+          {
+            img: 'https://qn-act.qbcdn.com/assistant/t-shirt.jpg',
+          }
+
+        ]
       }
     },
     created:function(){
@@ -61,6 +84,12 @@ import ApiControl from '../../config/envConfig.home'
 body{
   height: 100%;
   font-family:'PingFangSC-Regular';
+  .banner{
+    height:100px;
+    .banner-container{
+      display: block;
+    }
+  }
   .popup-control{
     width: 100%;
   }

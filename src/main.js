@@ -9,8 +9,13 @@ import './static/style/style.css'
 import errorMessage from './components/requestError'
 import { Picker } from 'mint-ui';
 import { Popup } from 'mint-ui';
+import { Swipe, SwipeItem } from 'mint-ui';
+import { Toast } from 'mint-ui';
+import { Indicator } from 'mint-ui';
 Vue.component(Picker.name, Picker);
 Vue.component(Popup.name, Popup);
+Vue.component(Swipe.name, Swipe);
+Vue.component(SwipeItem.name, SwipeItem);
 // import VueImgInputer from 'vue-img-inputer'
 Vue.prototype.$ajax = axios
 Vue.use(VueRouter)
