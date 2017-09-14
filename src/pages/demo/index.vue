@@ -2,17 +2,16 @@
 <template>
 	<div>
     <mt-swipe :show-indicators="false" class="banner" :auto="0">
-      <div class="banner-container" v-for="item in swipItems">
-        <mt-swipe-item><img :src="item.img"/></mt-swipe-item>
-      </div>
-<!--       <mt-swipe-item>1</mt-swipe-item>
-      <mt-swipe-item>2</mt-swipe-item>
-      <mt-swipe-item>3</mt-swipe-item> -->
+        <mt-swipe-item v-for="item in swipItems"><img :src="item.img"/></mt-swipe-item>
     </mt-swipe>
     <mt-button @click.native="handleClick">按钮</mt-button>
     <mt-popup v-model="popupVisible" class="popup-control" position="bottom" pop-transition="popup-fade">
       <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
     </mt-popup>
+
+    <mt-cell-swipe
+        title="标题文字"
+        :right="rightContents"></mt-cell-swipe>
 	</div>
   
 </template>
@@ -57,6 +56,13 @@ import ApiControl from '../../config/envConfig.home'
             img: 'https://qn-act.qbcdn.com/assistant/t-shirt.jpg',
           }
 
+        ],
+        rightContents:[
+          {
+            content: '<img src="../../static/images/mainIndex/message-icon.png"',
+              style: { background: '#eee', color: '#fff' },
+              handler: () => this.$messagebox('delete')
+          }
         ]
       }
     },

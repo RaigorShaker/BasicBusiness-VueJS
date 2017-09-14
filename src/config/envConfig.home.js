@@ -22,28 +22,7 @@ var _defaultApi = {
         submitDraw: 'http://192.168.132.44:8081/goods/uc/point/drawing/submit'
     },
     product: {
-        couponList: 'api/item/goodsCoupon/couponList',//优惠券商品列表
-        couponDetail: 'api/item/goodsCoupon/couponDetail',//商品详情
-        activeGoodsDetail: 'api/item/goodsCoupon/activeGoodsDetail',//活动商品详情
-        categoryList: 'api/item/goodsCoupon/catogry/all',//分类列表
-        checkLogin: 'api/item/user/checkLogin',//校验是否登录
-        login: 'api/item/user/login',//登录
-        getMyOrder: 'api/item/user/order/myorder',//我的订单
-        submitOrder: 'api/item/user/order/submitOrderNo',//提交订单
-        getUserInfo: 'api/item/user/getUserInfo',//获取用户信息
-        getAppId: 'api/item/weixin/info',//获取微信appId
-        pointDetail: 'api/item/goods/pointList',//积分明细
-        exchangeList: 'api/item/goods/exchangeList',//兑换明细
-        exchangeSubmit: 'api/item/goods/exchangeSubmit',//兑换积分
-        setAlipay: 'api/item/goods/setAlipay',//添加、修改支付宝账号
-        getActiveGoods: 'api/item/goods/goodsCoupon/activeGoods',//活动商品列表
-        getPartnerInfo: 'api/item/user/partner',	//获取合伙人信息
-        jsInfo: 'api/weixin/js/info/item?',
-        uploadPartnerInfo: 'api/item/user/partner/userinfo/submit',
-        idImage: 'api/item/wx/qiniu/upload',
-        partner: 'api/item/goods/partner',
-        drawList: 'api/item/point/drawing/list',
-        submitDraw: 'api/item/point/drawing/submit'
+        mainIndex: '/api/mainIndex'
     }
     // product: {
     //     couponList: 'http://txdy.tunnel.qydev.com/tr2/api/item/goodsCoupon/couponList',//优惠券商品列表

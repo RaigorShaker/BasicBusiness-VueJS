@@ -3,6 +3,7 @@
     <transition name="router-fade" mode="out-in">
         <router-view></router-view>
     </transition>
+    <foot-guide ref="footGuide"></foot-guide>
 </div>
 </template>
 
@@ -95,11 +96,11 @@ import { mapState ,mapMutations} from 'vuex';
     
     #app {
         width: 100%;
-        height: 100%;
+        // height: 100%;
         background: #fff;
         >div {
             width: 100%;
-            height: 100%;
+            // height: 100%;
         }
     }
 </style>

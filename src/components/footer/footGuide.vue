@@ -21,7 +21,8 @@
       }
     },
     created() {
-      
+      console.log('test')
+      console.log(this.$route.meta.hasMenu)
     },
     mounted() {
 
@@ -96,22 +97,6 @@
   
   .ticket_icon {
     background: url('../../static/images/footer/subscribe-normal.png') no-repeat;
-  }
-  
-  .menu_icon_active {
-    background: url('../../static/images/footer/menu-list-normal.png') no-repeat;
-  }
-  
-  .menu_icon {
-    background: url('../../static/images/footer/menu-list-normal.png') no-repeat;
-  }
-  
-  .stuff_icon_active {
-    background: url('../../static/images/footer/home-active.png') no-repeat;
-  }
-  
-  .stuff_icon {
-    background: url('../../static/images/footer/stuff-normal.png') no-repeat;
   }
   
   .profile_icon_active {

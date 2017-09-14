@@ -5,23 +5,26 @@ import store from './vuex';
 import axios from 'axios'
 import MintUI from 'mint-ui'
 import './static/style/style.css'
-// import footGuide from './components/footer/footGuide'
+import footGuide from './components/footer/footGuide'
 import errorMessage from './components/requestError'
 import { Picker } from 'mint-ui';
 import { Popup } from 'mint-ui';
 import { Swipe, SwipeItem } from 'mint-ui';
 import { Toast } from 'mint-ui';
 import { Indicator } from 'mint-ui';
-Vue.component(Picker.name, Picker);
-Vue.component(Popup.name, Popup);
-Vue.component(Swipe.name, Swipe);
-Vue.component(SwipeItem.name, SwipeItem);
+import { CellSwipe } from 'mint-ui';
+
 // import VueImgInputer from 'vue-img-inputer'
 Vue.prototype.$ajax = axios
 Vue.use(VueRouter)
 Vue.use(MintUI)
-// Vue.component('footGuide', footGuide)
+Vue.component('footGuide', footGuide)
 Vue.component('errorMessage', errorMessage)
+Vue.component(Picker.name, Picker);
+Vue.component(Popup.name, Popup);
+Vue.component(Swipe.name, Swipe);
+Vue.component(SwipeItem.name, SwipeItem);
+Vue.component(CellSwipe.name, CellSwipe);
 // Vue.component('VueImgInputer', VueImgInputer)
 const router = new VueRouter({
 	// routes

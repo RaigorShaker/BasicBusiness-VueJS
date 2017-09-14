@@ -59,15 +59,14 @@ if (context.length) {
 }
 
 // global proxy to mock
-// server.use(proxyMiddleware('http://localhost:8888/api/item/goodsCoupon/couponList',{
-//     target: 'http://wyhw-test.banyan-data.com/wyhw/api/item/goodsCoupon/couponList',
-//     changeOrigin: true,
-//     secure: false,
-//     // pathRewrite: {
-//     //     '^/api/item/goodsCoupon/couponList' : '/item/goodsCoupon/couponList',        
-//     //     // '^/api/item' : '/goods'
-//     // }
-// }))
+server.use(proxyMiddleware('/api',{
+    target: 'http://www.mihuyu.top',
+    changeOrigin: true,
+    secure: false,
+    pathRewrite: {
+        '/api/mainIndex' : '/piano/pianoRoom.php',        
+    }
+}))
 
 
 // handle fallback for HTML5 history API

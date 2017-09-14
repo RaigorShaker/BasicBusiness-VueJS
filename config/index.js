@@ -26,8 +26,8 @@ module.exports = {
             // 'http://localhost:8888/api/item/goodsCoupon/couponList'
         ],
         // proxyTable: {
-        //     '/api/item/goodsCoupon/couponList':{
-        //         target:'http://wyhw-test.banyan-data.com/wyhw',
+        //     '/api/mainIndex':{
+        //         target:'http://www.mihuyu.top/piano/pianoRoom.php',
         //         changeOrigin:true,
         //         // pathRewrite:{
         //         //     '^/api/item/goodsCoupon/couponList':'/item/goodsCoupon/couponList'
