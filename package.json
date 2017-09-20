@@ -12,6 +12,7 @@
     "axios": "^0.16.2",
     "mint-ui": "^2.2.9",
     "vue": "^2.1.0",
+    "vue-input-code": "^1.2.3",
     "vue-picker": "0.0.4",
     "vue-router": "^2.1.1",
     "vuex": "^2.0.0"

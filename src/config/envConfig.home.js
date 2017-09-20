@@ -22,7 +22,10 @@ var _defaultApi = {
         submitDraw: 'http://192.168.132.44:8081/goods/uc/point/drawing/submit'
     },
     product: {
-        mainIndex: '/api/mainIndex'
+        mainIndex: '/api/mainIndex',
+        actList: '/api/actList',
+        activityDetail: '/api/actDetail',
+        croomList: '/api/croomList'
     }
     // product: {
     //     couponList: 'http://txdy.tunnel.qydev.com/tr2/api/item/goodsCoupon/couponList',//优惠券商品列表

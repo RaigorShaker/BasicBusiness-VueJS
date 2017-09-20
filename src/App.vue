@@ -89,9 +89,12 @@ import { mapState ,mapMutations} from 'vuex';
     .router-fade-leave-active {
         opacity: 0;
     }
-    
+    .toast-common{
+        font-size: 20px;
+        color: #000;
+    }
     body {
-        background-color: #eee;
+        background-color: #fff;
     }
     
     #app {

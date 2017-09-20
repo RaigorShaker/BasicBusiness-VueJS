@@ -64,7 +64,10 @@ server.use(proxyMiddleware('/api',{
     changeOrigin: true,
     secure: false,
     pathRewrite: {
-        '/api/mainIndex' : '/piano/pianoRoom.php',        
+        '/api/mainIndex' : '/piano/piano/Index/Piano/get_parm',    
+        '/api/actList' : '/piano/pianoRoom.php',
+        '/api/actDetail' : '/piano/pianoRoom.php',
+        '/api/croomList': '/piano/pianoRoom.php',
     }
 }))
 

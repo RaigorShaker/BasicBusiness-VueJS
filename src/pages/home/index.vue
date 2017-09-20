@@ -10,47 +10,56 @@
         
         <div class="banner">
                 <mt-swipe :show-indicators="false" class="banner" :auto="0">
-                    <mt-swipe-item v-for="item in mainIndexData.banner_list"><img :src="item.url + item.pic"/></mt-swipe-item>
+                    <mt-swipe-item v-for="item in mainIndexData.banner_list"><img :src="baseUrl + item.base_url"/></mt-swipe-item>
                 </mt-swipe>
         </div>
         <div class="product">
             <div class="product-first">
-                <div class="product-classroom">
-                    <div class="classroom-container">
-                        <img src="../../static/images/mainIndex/classes.png"/>
+                <router-link :to="'/croomList'">
+                    <div class="product-classroom">
+                        <div class="classroom-container">
+                            <img src="../../static/images/mainIndex/classes.png"/>
+                        </div>
+                        <div class="product-name">教室</div>
+                        <div class="classroom-number">{{ mainIndexData.all_class }}间教室</div>
                     </div>
-                    <div class="product-name">教室</div>
-                    <div class="classroom-number">{{ mainIndexData.all_class }}间教室</div>
-                </div>
-                <div class="product-teacher">
-                    <div class="teacher-container">
-                        <img src="../../static/images/mainIndex/teachers.png"/>
+                </router-link>
+                <router-link :to="'/teacherList'">
+                    <div class="product-teacher">
+                        <div class="teacher-container">
+                            <img src="../../static/images/mainIndex/teachers.png"/>
+                        </div>
+                        <div class="product-name">教师</div>
+                        <div class="classroom-number">{{ mainIndexData.all_teacher }}位老师</div>
                     </div>
-                    <div class="product-name">教师</div>
-                    <div class="classroom-number">{{ mainIndexData.all_teacher }}位老师</div>
-                </div>
+                </router-link>
             </div>
             <div class="product-second">
-                <div class="product-lesson">
-                    <div class="lesson-container">
-                        <img src="../../static/images/mainIndex/lessons.png"/>
+                <router-link :to="'/lessonList'">
+                    <div class="product-lesson">
+                        <div class="lesson-container">
+                            <img src="../../static/images/mainIndex/lessons.png"/>
+                        </div>
+                        <div class="product-name">课程</div>
+                        <div class="classroom-number">{{ mainIndexData.all_class }}个课程</div>
                     </div>
-                    <div class="product-name">课程</div>
-                    <div class="classroom-number">{{ mainIndexData.all_class }}个课程</div>
-                </div>
-                <div class="product-joinus">
-                    <div class="joinus-container">
-                        <img src="../../static/images/mainIndex/joinUs.png"/>
+                </router-link>
+                <router-link :to="'/register'">
+                    <div class="product-joinus">
+                        <div class="joinus-container">
+                            <img src="../../static/images/mainIndex/joinUs.png"/>
+                        </div>
+                        <div class="product-name">加入我们</div>
+                        <div class="classroom-number">{{ mainIndexData.all_member }}位家长选择我们</div>
                     </div>
-                    <div class="product-name">加入我们</div>
-                    <div class="classroom-number">{{ mainIndexData.all_member }}位家长选择我们</div>
-                </div>
+                </router-link>
+                
             </div>
         </div>
         <div class="activity">
             <div class="activity-item" v-for="item in mainIndexData.acti_list">
                 <img :src="item.acti_pic"/>
-                <div class="item-title">{{ item.acti }}</div>
+                <div class="item-title">{{ item.name }}</div>
             </div>
         </div>
     </div>                         
@@ -72,7 +81,8 @@
             return {
                 mainIndexData: {},
                 pastle: false,
-                message: ''
+                message: '',
+                baseUrl:'http://www.mihuyu.top'
             }
         },
         components: {
@@ -103,7 +113,7 @@
             var _vue = this;
             _vue.$ajax.get(ApiControl.getApi(env, "mainIndex"), {
                 params:{
-                    act: '01'
+                    act: 'index'
                 }
             }).
             then(res => {

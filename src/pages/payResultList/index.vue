@@ -1,24 +1,32 @@
 <!-- 合伙人规则页面 -->
 <template>
-    <div class="swiperLeft">
-      <div class="delete" v-for="item in activityList">
-        <div class="slider">
-          <div class="content" 
-              @touchstart='touchStart(item.id)'
-              @touchmove='touchMove(item.id)'
-              @touchend='touchEnd(item.id)'
-              :style="item.slider"
-          >
-                  <!-- 插槽中放具体项目中需要内容         -->   
-            <div class="activity">
-              <img src="https://qn-act.qbcdn.com/assistant/t-shirt.jpg" />
+    <div class="activity-container">
+      <div class="activity-content" v-for="(item,index) in activityList">
+        <div class="activity-time">{{ item.date }}</div>
+        <div class="activity-swiper-item">
+          <div class="slider">
+            <div class="content" 
+                @touchstart='touchStart(item.id)'
+                @touchmove='touchMove(item.id)'
+                @touchend='touchEnd(item.id)'
+                :style="item.slider"
+            >
+              <div class="activity-item">
+                  <div class="item-title">{{ item.pay_for }}</div>
+                  <div class="item-amount">{{ item.info_pay }}</div>
+                  <div class="item-pay">
+                    <div class="item-text">付款账户</div>
+                    <div class="item-info">{{ item.pay_num }}</div>
+                  </div>
+              </div>
+            </div>
+            <div class="remove" ref='remove' @click="removeItem(item.id,index)">
+              <img class="garbage" src="../../static/images/mainIndex/garbage.png"/>
             </div>
           </div>
-          <div class="remove" ref='remove' @click="removeItem(item.id)">
-            <img class="garbage" src="../../static/images/mainIndex/garbage.png"/>
-          </div>
         </div>
-       </div>
+      </div>
+      
     </div>
 </template>
 
@@ -45,20 +53,33 @@ export default {
         activityList: [
           {
             id: 1,
-            slider: ""
+            slider: "",
+            date: '2017-09-20',
+            pay_for:"报名小提琴",
+            info_pay: '340',
+            pay_num: '1213432432532'
+
           },
           {
             id: 2,
-            slider: ""
+            slider: "",
+            date: '2017-09-20',
+            pay_for:"报名小提琴",
+            info_pay: '340',
+            pay_num: '1213432432532'
           },
           {
             id: 3,
-            slider: ""
+            slider: "",
+            date: '2017-09-20',
+            pay_for:"报名小提琴",
+            info_pay: '340',
+            pay_num: '1213432432532'
           }
         ]
      }
    },
-   methods:{
+  methods:{
       touchStart(id,ev){
         ev= ev || event
           //tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
@@ -114,33 +135,107 @@ export default {
                       }
                   }
       },
-      removeItem: function(id){
-          console.log('delete swiper' + id);
-      }      
-    },  
+      removeItem: function(id,index){
+        this.activityList.splice(index,1);
+        // send delete request to server
+      },
+      wrapperList: function(data){
+        for(item in data){
+          item.slider = '';
+        }
+        return data;
+      }  
+  },  
+  created(){
+    var _vue = this;
+    _vue.$ajax.get(ApiControl.getApi(env, "actList"), {
+        params:{
+            act: '03'
+        }
+    }).
+    then(res => {
+        if(res.data.code == 0){
+            console.log(res.data.data)
+            _vue.activityList = this.wrapperList(res.data.data);
+
+        }else{
+            _vue.setErrorMessage(res.data.message);
+        }
+        
+    })
+  }
 }
 </script>
 <style scoped lang="less" scoped>
+    .activity-container{
+      padding-top: 30px;
+      background: #eee;
+      overflow: hidden;
+      .activity-time{
+        text-align: center;
+        margin-bottom: 5px;
+        color: #ddd;
+      }
+      .activity-swiper-item{
+        // margin-top: 30px;
+        margin: 0px 13px 30px 13px;
+      }
+    }
     .slider{
         width: 100%;
         height:200px;
         position: relative;
-         user-select: none;
+        user-select: none;
         .content{
             position: absolute;
             left: 0;
             right: 0;
             top: 0;
             bottom: 0;
-            background:green;
+            // background:green;
             z-index: 100;
             //    设置过渡动画
             transition: 0.3s;
-            .activity{
-              img{
+            .activity-item{
                 width: 100%;
-                height: 100%;
-              }
+                background: #fff;
+                border-bottom: 1px dashed #ddd;
+                border-radius: 8px;
+                .item-title{
+                    text-align: center;
+                    height: 40px;
+                    line-height: 40px;
+                    font-size: 15px;
+                    color: #ddd;
+                    // font-weiggt: bold;
+                    // background: url('../../static/images/mainIndex/arrow.png') center right no-repeat;
+                    background-size: 10px;
+                    margin-right: 20px;
+                }
+                .item-amount{
+                  font-size: 20px;
+                  color: #000;
+                  height: 100px;
+                  line-height: 100px;
+                  font-weight: bold;
+                  text-align: center;
+                  border-bottom: 1px dashed #ddd;
+                }
+                .item-pay{
+                  height: 60px;
+                  line-height: 60px;
+                  font-size: 15px;
+                  color: #ddd;
+                  .item-text{
+                    display: inline-block;
+                    margin-left: 20px;
+                  }
+                  .item-info{
+                    display: inline-block;
+                    float: right;
+                    margin-right: 20px;
+                  }
+                }
             }
         }
         .remove{
@@ -157,7 +252,7 @@ export default {
             text-align:center;
             .garbage{
               width: 58px;
-
+              vertical-align: middle
             }
         }
     }

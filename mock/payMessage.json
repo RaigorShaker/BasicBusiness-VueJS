@@ -1,0 +1,32 @@
+{
+	"code": 0,
+	"mes": "ok",
+	"data": {
+		"data_list": [
+			{
+				"date": "2017-09-20",
+				"pay_for": "报名小提琴",
+				"info_pay": "480",
+				"info_pay_from": "1",
+				"pay_num": "20170920144120123456",
+				"status": "1"
+			},
+			{
+				"date": "2017-09-20",
+				"pay_for": "报名小提琴",
+				"info_pay": "480",
+				"info_pay_from": "1",
+				"pay_num": "20170920144120123456",
+				"status": "1"
+			},
+			{
+				"date": "2017-09-20",
+				"pay_for": "报名小提琴",
+				"info_pay": "480",
+				"info_pay_from": "1",
+				"pay_num": "20170920144120123456",
+				"status": "1"
+			},
+		]
+	}
+}

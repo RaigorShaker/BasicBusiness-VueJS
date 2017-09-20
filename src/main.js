@@ -14,6 +14,16 @@ import { Toast } from 'mint-ui';
 import { Indicator } from 'mint-ui';
 import { CellSwipe } from 'mint-ui';
 
+Vue.directive('focus', {
+    focus: {
+        inserted: function (el, {value}) {
+            if (value) {
+                el.focus();
+            }
+        }
+    }
+});
+
 // import VueImgInputer from 'vue-img-inputer'
 Vue.prototype.$ajax = axios
 Vue.use(VueRouter)

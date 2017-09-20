@@ -4,8 +4,8 @@
         <!-- check router path to display correct background img -->
         	<div v-bind:class="[($route.path.indexOf('home') !== -1 || $route.path.indexOf('search') !== -1 ||$route.path=='/') ? 'index_icon_active' : 'index_icon']"><span>主页</span></div>
         </section>
-        <section @click = "gotoAddress({path: '/stuff'})" class="guide_item">
-        	<div v-bind:class="[$route.path.indexOf('stuff') !== -1 ? 'ticket_icon_active' : 'ticket_icon']"><span>预约</span></div>
+        <section @click = "gotoAddress({path: '/subscribe'})" class="guide_item">
+        	<div v-bind:class="[$route.path.indexOf('subscribe') !== -1 ? 'ticket_icon_active' : 'ticket_icon']"><span>预约</span></div>
         </section>
         <section @click = "gotoAddress('/profile')" class="guide_item">
             <div v-bind:class="[$route.path.indexOf('profile') !== -1 ? 'profile_icon_active' : 'profile_icon']"><span>我的</span></div>
@@ -29,15 +29,7 @@
     },
     methods: {
       gotoAddress(path) {
-        if(path == '/profile'){
-          if(!/micromessenger/i.test(navigator.userAgent)){
-            this.$router.push('/guide')
-          }else{
-            this.$router.push(path)
-          }
-        }else{
-          this.$router.push(path)
-        }
+        this.$router.push(path)
       },
       pop:function(){
         this.pastle = true;

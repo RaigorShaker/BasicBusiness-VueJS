@@ -1,7 +1,7 @@
 <!-- 合伙人规则页面 -->
 <template>
-    <div class="swiperLeft">
-      <div class="delete" v-for="item in activityList">
+    <div class="activity-container">
+      <div class="activity-swiper-item" v-for="(item,index) in activityList">
         <div class="slider">
           <div class="content" 
               @touchstart='touchStart(item.id)'
@@ -9,12 +9,12 @@
               @touchend='touchEnd(item.id)'
               :style="item.slider"
           >
-                  <!-- 插槽中放具体项目中需要内容         -->   
-            <div class="activity">
-              <img src="https://qn-act.qbcdn.com/assistant/t-shirt.jpg" />
+            <div class="activity-item">
+                <img :src="item.url + item.acti_pic"/>
+                <div class="item-title">{{ item.acti }}</div>
             </div>
           </div>
-          <div class="remove" ref='remove' @click="removeItem(item.id)">
+          <div class="remove" ref='remove' @click="removeItem(item.id,index)">
             <img class="garbage" src="../../static/images/mainIndex/garbage.png"/>
           </div>
         </div>
@@ -58,7 +58,7 @@ export default {
         ]
      }
    },
-   methods:{
+  methods:{
       touchStart(id,ev){
         ev= ev || event
           //tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
@@ -114,16 +114,50 @@ export default {
                       }
                   }
       },
-      removeItem: function(id){
-          console.log('delete swiper' + id);
-      }      
-    },  
+      removeItem: function(id,index){
+        this.activityList.splice(index,1);
+        // send delete request to server
+      },
+      wrapperList: function(data){
+        for(item in data){
+          item.slider = '';
+        }
+        return data;
+      }  
+  },  
+  created(){
+    var _vue = this;
+    _vue.$ajax.get(ApiControl.getApi(env, "actList"), {
+        params:{
+            act: '03'
+        }
+    }).
+    then(res => {
+        if(res.data.code == 0){
+            console.log(res.data.data)
+            _vue.activityList = this.wrapperList(res.data.data);
+
+        }else{
+            _vue.setErrorMessage(res.data.message);
+        }
+        
+    })
+  }
 }
 </script>
 <style scoped lang="less" scoped>
+    .activity-container{
+      padding-top: 30px;
+      background: #eee;
+      overflow: hidden;
+      .activity-swiper-item{
+        // margin-top: 30px;
+        margin: 0px 13px 30px 13px;
+      }
+    }
     .slider{
         width: 100%;
-        height:200px;
+        height:216px;
         position: relative;
          user-select: none;
         .content{
@@ -136,17 +170,30 @@ export default {
             z-index: 100;
             //    设置过渡动画
             transition: 0.3s;
-            .activity{
-              img{
+            .activity-item{
                 width: 100%;
-                height: 100%;
-              }
+                background: #fff;
+                img{
+                    width: 100%;
+                    height: 165px;
+                }
+                .item-title{
+                    margin-left: 20px;
+                    height: 50px;
+                    line-height: 50px;
+                    font-size: 20px;
+                    color: #000;
+                    font-weight: bold;
+                    background: url('../../static/images/mainIndex/arrow.png') center right no-repeat;
+                    background-size: 10px;
+                    margin-right: 20px;
+                }
             }
         }
         .remove{
             position: absolute;
             width:90px;
-            height:200px;
+            height:219px;
             background:rgb(247,247,249);
             right: 0;
             top: 0;
@@ -157,7 +204,7 @@ export default {
             text-align:center;
             .garbage{
               width: 58px;
-
+              vertical-align: middle
             }
         }
     }
