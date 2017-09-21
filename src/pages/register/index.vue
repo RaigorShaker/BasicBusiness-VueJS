@@ -91,7 +91,11 @@ import { Indicator } from 'mint-ui';
 <style lang="less" scoped>
 body{
   height: 100%;
+  background: #fff;
   font-family:'PingFangSC-Regular';
+  #app{
+    height: 100%;
+  }
   .register{
   	background: #fff;
   	height: 100%;

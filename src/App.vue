@@ -94,13 +94,13 @@ import { mapState ,mapMutations} from 'vuex';
         color: #000;
     }
     body {
-        background-color: #fff;
+        background-color: #eee;
     }
     
     #app {
         width: 100%;
         // height: 100%;
-        background: #fff;
+        background: #eee;
         >div {
             width: 100%;
             // height: 100%;

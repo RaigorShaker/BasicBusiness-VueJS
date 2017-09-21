@@ -2,21 +2,21 @@
 <template>
     <div class="activity-container">
       <div class="activity-content" v-for="(item,index) in activityList">
-        <div class="activity-time">{{ item.date }}</div>
+        <div class="activity-time">{{ item.create_at }}</div>
         <div class="activity-swiper-item">
           <div class="slider">
             <div class="content" 
-                @touchstart='touchStart(item.id)'
-                @touchmove='touchMove(item.id)'
-                @touchend='touchEnd(item.id)'
+                @touchstart='touchStart(index)'
+                @touchmove='touchMove(index)'
+                @touchend='touchEnd(index)'
                 :style="item.slider"
             >
               <div class="activity-item">
                   <div class="item-title">{{ item.title }}</div>
-                  <div class="item-amount">{{ item.content }}</div>
+                  <div class="item-amount">{{ item.msg }}</div>
               </div>
             </div>
-            <div class="remove" ref='remove' @click="removeItem(item.id,index)">
+            <div class="remove" ref='remove' @click="removeItem(item.act_id,index)">
               <img class="garbage" src="../../static/images/mainIndex/garbage.png"/>
             </div>
           </div>
@@ -45,29 +45,30 @@ export default {
         // ],
         // deleteSlider2: '',
         // deleteSlider3: '',
-        activityList: [
-          {
-            id: 1,
-            slider: "",
-            date: '2017-09-20',
-            title:"中山北路那啥啥啥啥是阿莎",
-            content: "中山北路那啥啥啥啥是阿莎"
-          },
-          {
-            id: 2,
-            slider: "",
-            date: '2017-09-20',
-            title:"中山北路那啥啥啥啥是阿莎",
-            content: "中山北路那啥啥啥啥是阿莎"
-          },
-          {
-            id: 3,
-            slider: "",
-            date: '2017-09-20',
-            title:"中山北路那啥啥啥啥是阿莎",
-            content: "中山北路那啥啥啥啥是阿莎"
-          }
-        ]
+        // activityList: [
+        //   {
+        //     id: 1,
+        //     slider: "",
+        //     create_at: '2017-09-20',
+        //     title:"中山北路那啥啥啥啥是阿莎",
+        //     msg: "中山北路那啥啥啥啥是阿莎"
+        //   },
+        //   {
+        //     id: 2,
+        //     slider: "",
+        //     create_at: '2017-09-20',
+        //     title:"中山北路那啥啥啥啥是阿莎",
+        //     msg: "中山北路那啥啥啥啥是阿莎"
+        //   },
+        //   {
+        //     id: 3,
+        //     slider: "",
+        //     create_at: '2017-09-20',
+        //     title:"中山北路那啥啥啥啥是阿莎",
+        //     msg: "中山北路那啥啥啥啥是阿莎"
+        //   }
+        // ]
+          activityList: []
      }
    },
   methods:{
@@ -92,7 +93,7 @@ export default {
                 this.disX = this.startX - this.moveX;
                 // 如果是向右滑动或者不滑动，不改变滑块的位置
                 if(this.disX < 0 || this.disX == 0) {
-                    this.activityList[id-1].slider = "transform:translateX(0px)";
+                    this.activityList[id].slider = "transform:translateX(0px)";
                 // 大于0，表示左滑了，此时滑块开始滑动 
                 }else if (this.disX > 0) {
                      //具体滑动距离我取的是 手指偏移距离*5。
@@ -100,10 +101,10 @@ export default {
                     
                     // 最大也只能等于删除按钮宽度 
                     if (this.disX*3 >=90) {
-                        this.activityList[id-1].slider = "transform:translateX(-" +90+ "px)";
+                        this.activityList[id].slider = "transform:translateX(-" +90+ "px)";
                      
                     }else{
-                      this.activityList[id-1].slider = "transform:translateX(-" + this.disX + "px)";
+                      this.activityList[id].slider = "transform:translateX(-" + this.disX + "px)";
                     }
                 }
             }
@@ -119,10 +120,10 @@ export default {
                       
                       if ((this.disX) < 45) {
                         
-                          this.activityList[id-1].slider = "transform:translateX(0px)";
+                          this.activityList[id].slider = "transform:translateX(0px)";
                       }else{
                           //大于一半 滑动到最大值
-                           this.activityList[id-1].slider = "transform:translateX(-"+90+ "px)";
+                           this.activityList[id].slider = "transform:translateX(-"+90+ "px)";
                       }
                   }
       },
@@ -131,8 +132,8 @@ export default {
           // send delete request to server
       },
       wrapperList: function(data){
-        for(item in data){
-          item.slider = '';
+        for(var item in data){
+          data[item]["slider"] = '';
         }
         return data;
       }  
@@ -140,15 +141,16 @@ export default {
   created(){
     document.title = '系统消息';
     var _vue = this;
-    _vue.$ajax.get(ApiControl.getApi(env, "actList"), {
+    _vue.$ajax.get(ApiControl.getApi(env, "sysMsgList"), {
         params:{
-            act: '03'
+            act: 'sysMes'
         }
     }).
     then(res => {
         if(res.data.code == 0){
             console.log(res.data.data)
-            _vue.activityList = this.wrapperList(res.data.data);
+            _vue.activityList = this.wrapperList(res.data.data.data_list);
+            console.log(_vue.activityList)
 
         }else{
             _vue.setErrorMessage(res.data.message);

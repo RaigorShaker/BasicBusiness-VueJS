@@ -1,7 +1,7 @@
 <template>
     <div class="main-index">
         <div class="topBar">
-            <router-link :to="'/order'">
+            <router-link :to="'/messageList'">
                 <div class="message">
                     <img src="../../static/images/mainIndex/message-icon.png"/><span>消息</span>
                 </div>
@@ -280,6 +280,9 @@
                     background: url('../../static/images/mainIndex/arrow.png') center right no-repeat;
                     background-size: 10px;
                     margin-right: 20px;
+                    overflow: hidden;
+                    white-space:nowrap;
+                    text-overflow: ellipsis;
                 }
             }
         }

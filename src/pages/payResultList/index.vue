@@ -6,21 +6,21 @@
         <div class="activity-swiper-item">
           <div class="slider">
             <div class="content" 
-                @touchstart='touchStart(item.id)'
-                @touchmove='touchMove(item.id)'
-                @touchend='touchEnd(item.id)'
+                @touchstart='touchStart(index)'
+                @touchmove='touchMove(index)'
+                @touchend='touchEnd(index)'
                 :style="item.slider"
             >
               <div class="activity-item">
-                  <div class="item-title">{{ item.pay_for }}</div>
-                  <div class="item-amount">{{ item.info_pay }}</div>
+                  <div class="item-title">{{ item.title }}</div>
+                  <div class="item-amount">{{ item.pay }}</div>
                   <div class="item-pay">
                     <div class="item-text">付款账户</div>
-                    <div class="item-info">{{ item.pay_num }}</div>
+                    <div class="item-info">{{ item.order_num }}</div>
                   </div>
               </div>
             </div>
-            <div class="remove" ref='remove' @click="removeItem(item.id,index)">
+            <div class="remove" ref='remove' @click="removeItem(item.act_id,index)">
               <img class="garbage" src="../../static/images/mainIndex/garbage.png"/>
             </div>
           </div>
@@ -43,38 +43,30 @@ export default {
         moveX: 0,   //滑动时的位置
         disX: 0,    //移动距离
         deleteSlider1: '',//滑动时的效果,使用v-bind:style="deleteSlider"
-        // styleList: [
-        //   0: "deleteSlider1",
-        //   1: "deleteSlider2",
-        //   2: "deleteSlider3"
-        // ],
-        // deleteSlider2: '',
-        // deleteSlider3: '',
         activityList: [
           {
             id: 1,
             slider: "",
             date: '2017-09-20',
-            pay_for:"报名小提琴",
-            info_pay: '340',
-            pay_num: '1213432432532'
-
+            title:"报名小提琴",
+            pay: '340',
+            order_num: '1213432432532'
           },
           {
             id: 2,
             slider: "",
             date: '2017-09-20',
-            pay_for:"报名小提琴",
-            info_pay: '340',
-            pay_num: '1213432432532'
+            title:"报名小提琴",
+            pay: '340',
+            order_num: '1213432432532'
           },
           {
             id: 3,
             slider: "",
             date: '2017-09-20',
-            pay_for:"报名小提琴",
-            info_pay: '340',
-            pay_num: '1213432432532'
+            title:"报名小提琴",
+            pay: '340',
+            order_num: '1213432432532'
           }
         ]
      }
@@ -101,7 +93,7 @@ export default {
                 this.disX = this.startX - this.moveX;
                 // 如果是向右滑动或者不滑动，不改变滑块的位置
                 if(this.disX < 0 || this.disX == 0) {
-                    this.activityList[id-1].slider = "transform:translateX(0px)";
+                    this.activityList[id].slider = "transform:translateX(0px)";
                 // 大于0，表示左滑了，此时滑块开始滑动 
                 }else if (this.disX > 0) {
                      //具体滑动距离我取的是 手指偏移距离*5。
@@ -109,10 +101,10 @@ export default {
                     
                     // 最大也只能等于删除按钮宽度 
                     if (this.disX*3 >=90) {
-                        this.activityList[id-1].slider = "transform:translateX(-" +90+ "px)";
+                        this.activityList[id].slider = "transform:translateX(-" +90+ "px)";
                      
                     }else{
-                      this.activityList[id-1].slider = "transform:translateX(-" + this.disX + "px)";
+                      this.activityList[id].slider = "transform:translateX(-" + this.disX + "px)";
                     }
                 }
             }
@@ -128,10 +120,10 @@ export default {
                       
                       if ((this.disX) < 45) {
                         
-                          this.activityList[id-1].slider = "transform:translateX(0px)";
+                          this.activityList[id].slider = "transform:translateX(0px)";
                       }else{
                           //大于一半 滑动到最大值
-                           this.activityList[id-1].slider = "transform:translateX(-"+90+ "px)";
+                           this.activityList[id].slider = "transform:translateX(-"+90+ "px)";
                       }
                   }
       },
@@ -140,23 +132,23 @@ export default {
         // send delete request to server
       },
       wrapperList: function(data){
-        for(item in data){
-          item.slider = '';
+        for(var item in data){
+          data[item]["slider"] = '';
         }
         return data;
       }  
   },  
   created(){
     var _vue = this;
-    _vue.$ajax.get(ApiControl.getApi(env, "actList"), {
+    _vue.$ajax.get(ApiControl.getApi(env, "payResultMes"), {
         params:{
-            act: '03'
+            act: 'payResultMes'
         }
     }).
     then(res => {
         if(res.data.code == 0){
-            console.log(res.data.data)
-            _vue.activityList = this.wrapperList(res.data.data);
+            console.log(res.data.data.data_list)
+            _vue.activityList = this.wrapperList(res.data.data.data_list);
 
         }else{
             _vue.setErrorMessage(res.data.message);

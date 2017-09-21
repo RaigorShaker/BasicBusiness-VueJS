@@ -10,19 +10,22 @@
     </mt-popup> -->
     <div class="area-container">
       <div class="select-area">
-        <div @click="handlerTypeClick" class="select-type">{{ selectType }}</div><div @click="handlerDistinctClick" class="select-distinct">{{ selectDistinct }}</div>
+        <div @click="handlerTypeClick" class="select-type"><img class="type-icon" src="../../static/images/mainIndex/type_icon.png" />{{ selectType }}</div><div @click="handlerDistinctClick" class="select-distinct"><img class="distinct-icon" src="../../static/images/mainIndex/distinct_icon.png" />{{ selectDistinct }}</div>
+        <div class="position-icon">
+          <img src="../../static/images/mainIndex/position-icon.png"/>
+        </div>
         <mt-popup v-model="typeVisible" class="popup-control" position="bottom" pop-transition="popup-fade" :closeOnClickModal="false">
           <div class="picker-toolbar">  
             <div class="type-pick-toolbar" @click="confirmTypeSelect">确定</div>  
           </div>
-          <mt-picker :slots="typeSlots" @change="onTypeChange" showToolbar="false"></mt-picker>
+          <mt-picker :slots="typeSlots" @change="onTypeChange"></mt-picker>
         </mt-popup>
 
         <mt-popup v-model="disVisible" class="popup-control" position="bottom" pop-transition="popup-fade" :closeOnClickModal="false">
           <div class="picker-toolbar">  
             <div class="distinct-pick-toolbar" @click="confirmDistinctSelect">确定</div>  
           </div>
-          <mt-picker :slots="distinctSlots" @change="onDistinctChange" showToolbar="false"></mt-picker>
+          <mt-picker :slots="distinctSlots" @change="onDistinctChange"></mt-picker>
         </mt-popup>
       </div>
     </div>
@@ -31,20 +34,24 @@
        <input placeholder="搜索" v-model="keywords"></input>
        <div class="searching" @click="searching(keywords,'','')">搜索</div>
     </div>
+    
     <div class="result">
-      <div class="result-item" v-for="item in searchResult">
-        <div class="title">
-          <div class="name">{{ item.class_name }}</div>
-          <div class="distance">{{ item.class_yuan }}</div>
+      <!-- <div class="result-item" v-for="item in searchResult"> -->
+      <router-link v-for="item in searchResult" :to="'/croomDetail?id=' + item.room_id">
+        <div class="result-item">
+          <div class="title">
+            <div class="name">{{ item.cat_name }}</div>
+            <div class="distance">{{ item.class_yuan }}</div>
+          </div>
+          <div class="detail">
+            <div class="address">地址:{{ item.address }}</div>
+            <div class="price">价格: ¥{{item.price}}起</div>
+          </div>
+          <div class="picture">
+            <img :src="baseUrl + item.thumb"/>
+          </div>
         </div>
-        <div class="detail">
-          <div class="address">地址:{{ item.class_add }}</div>
-          <div class="price">价格: ¥{{item.class_much}}起</div>
-        </div>
-        <div class="picture">
-          <img :src="item.url + item.class_pic"/>
-        </div>
-      </div>
+      </router-link>
     </div>
   </div>
   
@@ -58,6 +65,7 @@ import ApiControl from '../../config/envConfig.home'
   name: 'profile',
   data(){
       return {
+        baseUrl: 'http://www.mihuyu.top',
         selectType: '架子鼓',
         selectDistinct: '青浦区',
         typeVisible: false,
@@ -83,7 +91,7 @@ import ApiControl from '../../config/envConfig.home'
         typeSlots:[
           {
             flex: 1,
-            values: ['架子鼓', '钢琴', '小提琴', '三角铁'],
+            values: [],
             className: 'slot1',
             textAlign: 'center'
           }
@@ -91,7 +99,7 @@ import ApiControl from '../../config/envConfig.home'
         distinctSlots:[
           {
             flex: 1,
-            values: ['杨浦区', '青浦区', '浦东新区', '徐汇区', '黄浦区', '虹口区', '宝山区', '闵行区', '嘉定区', '南汇区'],
+            values: [],
             className: 'slot1',
             textAlign: 'center'
           }
@@ -102,25 +110,52 @@ import ApiControl from '../../config/envConfig.home'
       }
     },
     created:function(){
-      document.title = "用户中心"
-
+      document.title = "教室列表"
 
       var _vue = this;
       _vue.$ajax.get(ApiControl.getApi(env, "croomList"), {
           params:{
-              act: '07'
+              act: 'classList',
           }
       }).
       then(res => {
-          if(res.data.code == 0){
-              console.log(res.data.data)
-              _vue.searchResult = [];
-              _vue.searchResult.push(res.data.data.class_1);
-              _vue.searchResult.push(res.data.data.class_2);
-          }else{
-              _vue.setErrorMessage(res.data.message);
+          // if(res.data.code == 0){
+          //   _vue.searchResult = [];
+          //   _vue.searchResult.push(res.data.data.class_1);
+          //   _vue.searchResult.push(res.data.data.class_2);
+
+          //   _vue.typeSlots.values = res.data.data.all_subject;//类型列表
+          //   _vue.typeSlots.values = [];
+          //   _vue.distinctSlots.values = [];
+          //   for(var type in res.data.data.all_subject){
+          //     _vue.typeSlots.values.push(res.data.data.all_subject[type].name)
+          //   }
+            
+          //   for(var distinct in res.data.data.all_qu){
+          //     _vue.distinctSlots.values.push(res.data.data.all_qu[distinct].area)
+          //   }
+            // _vue.searchResult = res.data.data.all_class;
+          // }else{
+          //     _vue.setErrorMessage(res.data.message);
+          // }
+
+          _vue.searchResult = [];
+          _vue.searchResult.push(res.data.data.class_1);
+          _vue.searchResult.push(res.data.data.class_2);
+
+          _vue.typeSlots.values = res.data.data.all_subject;//类型列表
+          _vue.typeSlots.values = [];
+          _vue.distinctSlots.values = [];
+          for(var type in res.data.data.all_subject){
+            _vue.typeSlots[0].values.push(res.data.data.all_subject[type].name)
           }
+          console.log(_vue.typeSlots);
           
+          for(var distinct in res.data.data.all_qu){
+            _vue.distinctSlots[0].values.push(res.data.data.all_qu[distinct].area)
+          }
+          console.log(_vue.distinctSlots);
+          _vue.searchResult = res.data.data.all_class;
       })
 
     },
@@ -170,10 +205,7 @@ import ApiControl from '../../config/envConfig.home'
         var _vue = this;
         _vue.$ajax.get(ApiControl.getApi(env, "croomList"), {
             params:{
-                act: '07',
-                type: type,
-                keywords: keywords,
-                distinct: distinct
+                act: 'classList',
             }
         }).
         then(res => {
@@ -181,6 +213,18 @@ import ApiControl from '../../config/envConfig.home'
               _vue.searchResult = [];
                 _vue.searchResult.push(res.data.data.class_1);
                 _vue.searchResult.push(res.data.data.class_2);
+
+                _vue.typeSlots.values = res.data.data.all_subject;//类型列表
+                _vue.typeSlots.values = [];
+                _vue.distinctSlots.values = [];
+                for(var type in res.data.data.all_subject){
+                  _vue.typeSlots.values.push(res.data.data.all_subject[type].name)
+                }
+                
+                for(var distinct in res.data.data.all_qu){
+                  _vue.distinctSlots.values.push(res.data.data.all_qu[distinct].area)
+                }
+                _vue.searchResult = res.data.data.all_class;
             }else{
                 _vue.setErrorMessage(res.data.message);
             }
@@ -233,6 +277,7 @@ body{
   }
   .area-container{
     height: 70px;
+    background: #fff;
     .select-area{
       display: inline-block;
       overflow: hidden;
@@ -242,12 +287,37 @@ body{
         width: 100px;
         height: 30px;
         display:inline-block;
-
+        overflow: hidden;
+        white-space:nowrap;
+        text-overflow: ellipsis;
+        .type-icon{
+          width: 10px;
+          height: 17px;
+          vertical-align: middle;
+          margin-right: 5px;
+        }
       }
       .select-distinct{
         width: 100px;
         height: 30px;
-        float:right;
+        display:inline-block;
+        overflow: hidden;
+        white-space:nowrap;
+        text-overflow: ellipsis;
+        .distinct-icon{
+          width: 10px;
+          height: 17px;
+          vertical-align: middle;
+          margin-right: 5px;
+        }
+      }
+      .position-icon{
+        float: right;
+        width: 30px;
+        height: 30px;
+        img{
+          width: 20px;
+        }
       }
     }
   }
@@ -255,6 +325,7 @@ body{
       position: relative;
       height: 48px;
       background: #fff;
+      margin-bottom: 10px;
       .search-icon {
           width: 15px;
           position: absolute;
@@ -296,11 +367,10 @@ body{
       }
   }
   .result{
-    border-top: 10px solid #ddd;
-    border-left: 2px solid #ddd;
-    border-right: 2px solid #ddd;
+    overflow: hidden;
     .result-item{
-      border-bottom: 10px solid #ddd;
+      margin-bottom: 20px;
+      background: #fff;
       .title{
         height: 30px;
         margin: 10px 0 30px 0;
@@ -312,6 +382,7 @@ body{
           color: #000;
           line-height: 20px;
           margin-left: 20px;
+          margin-top: 20px;
         }
         .distance{
           display: inline-block;
@@ -340,6 +411,8 @@ body{
       .picture{
         width: 100%;
         height: 120px;
+        padding: 0 10px;
+        padding-bottom: 20px;
         img{
           width: 100%;
           height: 100%;

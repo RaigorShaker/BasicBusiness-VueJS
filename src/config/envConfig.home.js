@@ -25,7 +25,11 @@ var _defaultApi = {
         mainIndex: '/api/mainIndex',
         actList: '/api/actList',
         activityDetail: '/api/actDetail',
-        croomList: '/api/croomList'
+        croomList: '/api/croomList',
+        lessonList: '/api/lessonList',
+        sysMsgList: '/api/sysMsgList',
+        payResultMes: '/api/payResultMsg',
+        msgList: '/api/mesList'
     }
     // product: {
     //     couponList: 'http://txdy.tunnel.qydev.com/tr2/api/item/goodsCoupon/couponList',//优惠券商品列表

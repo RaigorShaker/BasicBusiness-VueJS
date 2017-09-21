@@ -65,9 +65,14 @@ server.use(proxyMiddleware('/api',{
     secure: false,
     pathRewrite: {
         '/api/mainIndex' : '/piano/piano/Index/Piano/get_parm',    
-        '/api/actList' : '/piano/pianoRoom.php',
-        '/api/actDetail' : '/piano/pianoRoom.php',
-        '/api/croomList': '/piano/pianoRoom.php',
+        '/api/actList' : '/piano/piano/Index/Piano/get_parm',
+        '/api/actDetail' : '/piano/piano/Index/Piano/get_parm',
+        '/api/croomList': '/piano/piano/Index/Piano/get_parm',
+        '/api/lessonList': '/piano/piano/Index/Piano/get_parm',
+        '/api/mesList': '/piano/piano/Index/Piano/get_parm',
+        '/api/sysMsgList': '/piano/piano/Index/Piano/get_parm',
+        '/api/payResultMsg': '/piano/piano/Index/Piano/get_parm',
+
     }
 }))
 
