@@ -106,9 +106,9 @@
             // console.log('test')
             console.log(this.$route)
 
-            document.title = "我有好物"
+            document.title = "琴房App"
             var pageId = this.$route.query.pageId
-            this.title = this.$route.query.title == undefined ? '我有好物' : this.$route.query.title
+            this.title = this.$route.query.title == undefined ? '琴房App' : this.$route.query.title
 
             var _vue = this;
             _vue.$ajax.get(ApiControl.getApi(env, "mainIndex"), {

@@ -4,8 +4,8 @@ console.log('path is:' + path.resolve(__dirname, '../machine/index.html'))
 module.exports = {
     build: {
         env: {NODE_ENV: '"production"'},
-        index: path.resolve(__dirname, '../goods/index.html'),
-        assetsRoot: path.resolve(__dirname, '../goods'),
+        index: path.resolve(__dirname, '../app/index.html'),
+        assetsRoot: path.resolve(__dirname, '../app'),
         assetsSubDirectory: 'release/static',
         assetsPublicPath: './',//assetsPubicPath + assetsSubDirectory
         productionSourceMap: true,
