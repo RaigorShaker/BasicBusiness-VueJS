@@ -56,7 +56,7 @@ var _defaultApi = {
         teacherList: '/piano/piano/Index/Piano/get_parm',
         teacherDetail:'/piano/piano/Index/Piano/get_parm',
         reg:'/piano/piano/Index/Piano/get_parm',
-        checkcode: '/piano/piano/Index/Piano/get_parm'
+        checkcode: '/piano/piano/Index/Piano/get_parm',
         setPwd: '/piano/piano/Index/Piano/get_parm'
     }
     // product: {
