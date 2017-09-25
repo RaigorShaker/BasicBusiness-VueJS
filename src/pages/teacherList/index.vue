@@ -39,15 +39,15 @@
     
     <div class="result">
       <!-- <div class="result-item" v-for="item in searchResult"> -->
-      <router-link v-for="item in searchResult" :to="'/teacherDetail?id=' + item.teacher_id">
+      <router-link v-for="item in searchResult" :to="'/teacherDetail?id=' + item.id">
         <div class="result-item">
           <div class="detail">
             <div class="teacher_img">
-              <img :src="item.avatorUrl" />
+              <img :src="baseUrl + item.head_img" />
             </div>
             <div class="teacher-info">
               <div class="teacher_detail">
-                <span class="teacher_name">{{ item.teacher }}</span>
+                <span class="teacher_name">{{ item.name }}</span>
                 <span class="teacher_price">¥{{ item.price }}</span>
               </div>
               <div class="teacher_time">
@@ -76,7 +76,7 @@
   name: 'profile',
   data(){
       return {
-        baseUrl: 'http://www.mihuyu.top',
+        baseUrl: 'http://www.studyyx.com',
         selectType: '架子鼓',
         selectDistinct: '青浦区',
         typeVisible: false,
@@ -163,9 +163,9 @@
     document.title = "教室列表"
 
     var _vue = this;
-    _vue.$ajax.get(ApiControl.getApi(env, "lessonList"), {
+    _vue.$ajax.get(ApiControl.getApi(env, "teacherList"), {
         params:{
-            act: 'lessonList',
+            act: 'teacherList',
         }
     }).
     then(res => {
@@ -190,22 +190,19 @@
         // }
 
         _vue.searchResult = [];
-        _vue.searchResult.push(res.data.data.class_1);
-        _vue.searchResult.push(res.data.data.class_2);
-
-        _vue.typeSlots.values = res.data.data.all_subject;//类型列表
         _vue.typeSlots.values = [];
         _vue.distinctSlots.values = [];
-        for(var type in res.data.data.all_subject){
-          _vue.typeSlots[0].values.push(res.data.data.all_subject[type].name)
+
+        for(var type in res.data.data.subject_list){
+          _vue.typeSlots[0].values.push(res.data.data.subject_list[type].name)
         }
         console.log(_vue.typeSlots);
         
-        for(var distinct in res.data.data.all_qu){
-          _vue.distinctSlots[0].values.push(res.data.data.all_qu[distinct].area)
+        for(var distinct in res.data.data.area_list){
+          _vue.distinctSlots[0].values.push(res.data.data.area_list[distinct].area)
         }
         console.log(_vue.distinctSlots);
-        _vue.searchResult = res.data.data.all_class;
+        _vue.searchResult = res.data.data.teacher_list;
     })
 
   },
@@ -435,6 +432,7 @@ body{
           img{
             width: 100%;
             height: 100%;
+            border-radius: 44px;
           }
         }
         .teacher-info{

@@ -40,7 +40,7 @@
       <router-link v-for="item in searchResult" :to="'/croomDetail?id=' + item.room_id">
         <div class="result-item">
           <div class="title">
-            <div class="name">{{ item.cat_name }}</div>
+            <div class="name">{{ item.name }}</div>
             <div class="distance">{{ item.class_yuan }}</div>
           </div>
           <div class="detail">
@@ -48,7 +48,7 @@
             <div class="price">价格: ¥{{item.price}}起</div>
           </div>
           <div class="picture">
-            <img :src="baseUrl + item.thumb"/>
+            <img :src="item.thumb"/>
           </div>
         </div>
       </router-link>
@@ -65,7 +65,7 @@ import ApiControl from '../../config/envConfig.home'
   name: 'profile',
   data(){
       return {
-        baseUrl: 'http://www.mihuyu.top',
+        // baseUrl: 'http://www.mihuyu.top',
         selectType: '架子鼓',
         selectDistinct: '青浦区',
         typeVisible: false,
@@ -140,21 +140,15 @@ import ApiControl from '../../config/envConfig.home'
           // }
 
           _vue.searchResult = [];
-          _vue.searchResult.push(res.data.data.class_1);
-          _vue.searchResult.push(res.data.data.class_2);
-
-          _vue.typeSlots.values = res.data.data.all_subject;//类型列表
           _vue.typeSlots.values = [];
           _vue.distinctSlots.values = [];
           for(var type in res.data.data.all_subject){
             _vue.typeSlots[0].values.push(res.data.data.all_subject[type].name)
           }
-          console.log(_vue.typeSlots);
           
           for(var distinct in res.data.data.all_qu){
             _vue.distinctSlots[0].values.push(res.data.data.all_qu[distinct].area)
           }
-          console.log(_vue.distinctSlots);
           _vue.searchResult = res.data.data.all_class;
       })
 
@@ -211,10 +205,6 @@ import ApiControl from '../../config/envConfig.home'
         then(res => {
             if(res.data.code == 0){
               _vue.searchResult = [];
-                _vue.searchResult.push(res.data.data.class_1);
-                _vue.searchResult.push(res.data.data.class_2);
-
-                _vue.typeSlots.values = res.data.data.all_subject;//类型列表
                 _vue.typeSlots.values = [];
                 _vue.distinctSlots.values = [];
                 for(var type in res.data.data.all_subject){
@@ -410,7 +400,7 @@ body{
       }
       .picture{
         width: 100%;
-        height: 120px;
+        height: 160px;
         padding: 0 10px;
         padding-bottom: 20px;
         img{

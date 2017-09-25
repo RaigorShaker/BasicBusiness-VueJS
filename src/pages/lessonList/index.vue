@@ -39,22 +39,22 @@
     
     <div class="result">
       <!-- <div class="result-item" v-for="item in searchResult"> -->
-      <router-link v-for="item in searchResult" :to="'/croomDetail?id=' + item.room_id">
+      <router-link v-for="item in searchResult" :to="'/lessonDetail?detailId=' + item.id">
         <div class="result-item">
           <div class="title">
             <div class="lesson_icon"><img src="../../static/images/mainIndex/lesson_icon.png"/></div>
-            <div class="lesson_date">{{ item.date }}</div>
+            <div class="lesson_date">{{ item.date }} / {{ item.startTime}} - {{ item.endTime }}</div>
           </div>
           <div class="detail">
             <img :src="item.avatorUrl" />
-            <div class="teacher_name">{{ item.teacher }}</div>
+            <div class="teacher_name">{{ item.teacher_info.name }}</div>
           </div>
           <div class="lesson_info">
             <div class="lesson_name">
               <img src="../../static/images/mainIndex/house-icon.png"/>
-              <div class="lesson_area">{{ item.store }}</div>
+              <div class="lesson_area">{{ item.subject_name }}</div>
             </div>
-            <div class="lesson_address">{{ item.address }}</div>
+            <div class="lesson_address">{{ item.teacher_info.address }}</div>
           </div>
           <div class="process">
             <div class="process-title">
@@ -136,49 +136,23 @@
     document.title = "教室列表"
 
     var _vue = this;
-    _vue.$ajax.get(ApiControl.getApi(env, "lessonList"), {
+    _vue.$ajax.get(ApiControl.getApi(env, "courseList"), {
         params:{
-            act: 'lessonList',
+            act: 'courseList',
         }
     }).
     then(res => {
-        // if(res.data.code == 0){
-        //   _vue.searchResult = [];
-        //   _vue.searchResult.push(res.data.data.class_1);
-        //   _vue.searchResult.push(res.data.data.class_2);
-
-        //   _vue.typeSlots.values = res.data.data.all_subject;//类型列表
-        //   _vue.typeSlots.values = [];
-        //   _vue.distinctSlots.values = [];
-        //   for(var type in res.data.data.all_subject){
-        //     _vue.typeSlots.values.push(res.data.data.all_subject[type].name)
-        //   }
-          
-        //   for(var distinct in res.data.data.all_qu){
-        //     _vue.distinctSlots.values.push(res.data.data.all_qu[distinct].area)
-        //   }
-          // _vue.searchResult = res.data.data.all_class;
-        // }else{
-        //     _vue.setErrorMessage(res.data.message);
-        // }
-
         _vue.searchResult = [];
-        _vue.searchResult.push(res.data.data.class_1);
-        _vue.searchResult.push(res.data.data.class_2);
-
-        _vue.typeSlots.values = res.data.data.all_subject;//类型列表
         _vue.typeSlots.values = [];
         _vue.distinctSlots.values = [];
         for(var type in res.data.data.all_subject){
-          _vue.typeSlots[0].values.push(res.data.data.all_subject[type].name)
+          _vue.typeSlots[0].values.push(res.data.data.all_subject[type].subject_name)
         }
-        console.log(_vue.typeSlots);
         
-        for(var distinct in res.data.data.all_qu){
-          _vue.distinctSlots[0].values.push(res.data.data.all_qu[distinct].area)
+        for(var distinct in res.data.data.all_area){
+          _vue.distinctSlots[0].values.push(res.data.data.all_area[distinct].area)
         }
-        console.log(_vue.distinctSlots);
-        _vue.searchResult = res.data.data.all_class;
+        _vue.searchResult = res.data.data.course_list;
     })
 
   },
@@ -234,8 +208,6 @@
       then(res => {
           if(res.data.code == 0){
             _vue.searchResult = [];
-              _vue.searchResult.push(res.data.data.class_1);
-              _vue.searchResult.push(res.data.data.class_2);
 
               _vue.typeSlots.values = res.data.data.all_subject;//类型列表
               _vue.typeSlots.values = [];

@@ -2,16 +2,18 @@
 	<div class="profile">
 		<div class="top">
 			<div class="content">
-				<img :src="avatorUrl"/>
-				<div class="name">{{ name }}</div>
-				<div class="phone">{{ phone }}</div>
+				<img :src="baseUrl + user.user_pic"/>
+				<div class="name">{{ user.nickname }}</div>
+				<div class="phone">{{ user.phone }}</div>
 			</div>
 			<div class="credit">
-				<img src="../../static/images/profile/credit-not.png"/>
+				<img v-if="user.is_real == '1' " src="../../static/images/profile/credit-yes.png"/>
+				<img v-if="user.is_real == '0'" src="../../static/images/profile/credit-not.png"/>
 				<div class="credit-title">信用押金</div>
 			</div>
 			<div class="auth">
-				<img src="../../static/images/profile/teacher-credit-yes.png"/>
+				<img v-if="user.is_teacher == '1'" src="../../static/images/profile/teacher-credit-yes.png"/>
+				<img v-if="user.is_teacher == '0'" src="../../static/images/profile/credit-not.png"/>
 				<div class="credit-title">老师认证</div>
 			</div>
 		</div>
@@ -38,23 +40,24 @@
 				</div>
 			</div>
 			<!-- 优惠券 -->
-			<div class="ticket">
-				<div class="ticket-title">
-					<img src="../../static/images/profile/ticket-icon.png"/>
-					<div class="normal-text">优惠券</div>
+			<router-link :to="'/couponList'">
+				<div class="ticket">
+					<div class="ticket-title">
+						<img src="../../static/images/profile/ticket-icon.png"/>
+						<div class="normal-text">优惠券</div>
+					</div>
+					<div class="ticket-info">
+						<div class="ticket-number">{{ user.pay_off_count }}张</div>
+					</div>
 				</div>
-				<div class="ticket-info">
-					<div class="ticket-number">{{ ticket }}张</div>
-				</div>
-			</div>
-			
+			</router-link>
 			<div class="intro">
 				<div class="intro-title">
 					<img src="../../static/images/profile/gift-icon.png"/>
 					<div class="normal-text">推荐有礼</div>
 				</div>
 				<div class="intro-info">
-					<div class="intro-number">领{{ gift }}元奖金</div>
+					<div class="intro-number">推荐领奖金</div>
 				</div>
 			</div>
 			<div class="exit">
@@ -74,37 +77,41 @@
 	export default {
 	   data() {
 	      return {
-	      	name: '景老师',
-	      	phone: '18916582906',
-	      	ticket:'5',
-	      	gift: '30'
+	      	user:{
+	      		nickname: '景老师',
+	      		phone: '18916582906',
+	      		ticket:'5',
+	      		gift: '30',
+	      	},
+	      	baseUrl: 'http://www.studyyx.com',
 	     }
 	   },
 	  methods:{
 	       
 	  },  
 	  created(){
-	    // var _vue = this;
-	    // _vue.$ajax.get(ApiControl.getApi(env, "actList"), {
-	    //     params:{
-	    //         act: '03'
-	    //     }
-	    // }).
-	    // then(res => {
-	    //     if(res.data.code == 0){
-	    //         console.log(res.data.data)
-	    //         _vue.activityList = this.wrapperList(res.data.data);
+	  	document.title = '个人中心';
+	    var _vue = this;
+	    _vue.$ajax.get(ApiControl.getApi(env, "userCenter"), {
+	        params:{
+	            act: 'user_center'
+	        }
+	    }).
+	    then(res => {
+	        if(res.data.code == 0){
+	            _vue.user = res.data.data.user_info;
 
-	    //     }else{
-	    //         _vue.setErrorMessage(res.data.message);
-	    //     }
+	        }else{
+	            _vue.setErrorMessage(res.data.message);
+	        }
 	        
-	    // })
+	    })
 	  }
 	}
 </script>
 <style lang="less" scoped>
  	.profile{
+ 		padding-bottom: 50px;
  		.top{
  			height: 245px;
  			background: url('../../static/images/profile/top-background.png') center center no-repeat;

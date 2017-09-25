@@ -84,11 +84,28 @@ import VueInputCode from 'vue-input-code'
       		//     // }, 2000);
       		//     this.setMessage('请输入正确的手机号')
       		// }else{
-      			Indicator.open({
-      				spinnerType: 'fading-circle'
-      			})
+    			Indicator.open({
+    				spinnerType: 'fading-circle'
+    			})
       			//将手机号码发送至后台去发送验证码，同时将手机号参数带入下一个验证码填写页面，TBD
       		// }
+          var _vue = this;
+          _vue.$ajax.get(ApiControl.getApi(env, "setPwd"), {
+              params:{
+                  act: 'setPwd',
+                  pwd: _vue.password
+              }
+          }).
+          then(res => {
+              Indicator.close();
+              if(res.data.code == 0){
+                  this.$router.push('/home');
+              }else{
+                  _vue.setMessage("密码设置失败");
+              }
+              
+          })
+
       	}
       },
       removePass: function(){
@@ -139,7 +156,10 @@ body{
       margin: 0px 30px 0 30px;
       padding-top: 82px;
       background: none;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #ddd;
+      input{
+        background: transparent;
+      }
     .number-head{
       font-size: 15px;
       color: #000;

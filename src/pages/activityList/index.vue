@@ -3,17 +3,14 @@
     <div class="activity-container">
       <div class="activity-swiper-item" v-for="(item,index) in activityList">
         <div class="slider">
-          <div class="content" 
-              @touchstart='touchStart(index)'
-              @touchmove='touchMove(index)'
-              @touchend='touchEnd(index)'
-              :style="item.slider"
-          >
-            <div class="activity-item">
-                <img :src="baseUrl + item.acti_pic"/>
-                <div class="item-title">{{ item.name }}</div>
+          <router-link :to="'/actDetail?detailId=' + item.id">
+            <div class="content" @touchstart='touchStart(index)' @touchmove='touchMove(index)' @touchend='touchEnd(index)' :style="item.slider">
+              <div class="activity-item">
+                  <img :src="baseUrl + item.acti_pic"/>
+                  <div class="item-title">{{ item.name }}</div>
+              </div>
             </div>
-          </div>
+          </router-link>
           <div class="remove" ref='remove' @click="removeItem(item.act_id,index)">
             <img class="garbage" src="../../static/images/mainIndex/garbage.png"/>
           </div>

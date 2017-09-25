@@ -6,7 +6,7 @@
                     <img src="../../static/images/mainIndex/message-icon.png"/><span>消息</span>
                 </div>
             </router-link> -->
-            <img :src="detailObj.acti_pic"/>
+            <img :src="baseUrl + detailObj.acti_pic"/>
         </div>
         <div class="detail-info">
 			<div class="detail-main">
@@ -32,7 +32,7 @@
 			</div>
 			<div class="detail-rules">
 				<div class="detail-line"></div>
-				<div class="rules-container">活动规则:{{ detailObj.acti_rule }}</div>
+				<div class="rules-container">活动规则:<span v-html="detailObj.acti_rule"></span></div>
 			</div>
         </div>
     </div>                         
@@ -51,6 +51,7 @@
         name: 'home',
         data() {
             return {
+                baseUrl: 'http://www.studyyx.com',
                 detailObj: {},
                 pastle: false,
                 message: '',
@@ -79,13 +80,13 @@
             var _vue = this;
             _vue.$ajax.get(ApiControl.getApi(env, "activityDetail"), {
                 params:{
-                    act: '04',
-                    detailId: detailId
+                    act: 'actDetail',
+                    aid: detailId
                 }
             }).
             then(res => {
-                if(res.data.code == 0){
-                    _vue.detailObj = res.data.data;
+                if(res.data.data == 0){
+                    _vue.detailObj = res.data.status.data;
                 }else{
                     _vue.setErrorMessage(res.data.message);
                 }
@@ -99,6 +100,7 @@
 <style lang="less">
     .activity-detail{
         width: 100%;
+        background: #fff;
         .topBar{
 			img{
 				width: 100%;
@@ -117,6 +119,9 @@
         			font-weight: bolder;
         			color: #000;
         			margin-bottom:10px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
         		}
         		.detail-date{
         			font-size: 14px;
@@ -171,6 +176,7 @@
         	}
         }
         .detail-rules{
+            padding-bottom: 30px;
         	.detail-line{
         		height: 0px;
         		width: 55px;

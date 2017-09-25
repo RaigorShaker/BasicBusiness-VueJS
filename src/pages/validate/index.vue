@@ -38,7 +38,7 @@ import VueInputCode from 'vue-input-code'
         	clickable: false,
         	pastle:false,
         	message: '',
-          seconds: 10,
+          seconds: 60,
           code: [],
           text: ''
       	}
@@ -61,9 +61,9 @@ import VueInputCode from 'vue-input-code'
     	    },2000)
     	},
       onValuesChange(picker, values) {
-            if (values[0] > values[1]) {
-              picker.setSlotValue(1, values[0]);
-            }
+          if (values[0] > values[1]) {
+            picker.setSlotValue(1, values[0]);
+          }
       },
       handleClick: function() {
         this.popupVisible = true
@@ -116,6 +116,22 @@ import VueInputCode from 'vue-input-code'
           spinnerType: 'fading-circle'
         })
         //close the indicator: Indicator.close();
+        var _vue = this;
+        _vue.$ajax.get(ApiControl.getApi(env, "checkcode"), {
+            params:{
+                act: 'checkcode',
+                code: codeString
+            }
+        }).
+        then(res => {
+            Indicator.close();
+            if(res.data.code == 0){
+                this.$router.push('/password');
+            }else{
+                _vue.setMessage("验证码错误");
+            }
+            
+        })
 
       }
     },

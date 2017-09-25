@@ -13,10 +13,15 @@ const teacherList = r => require.ensure([], () => r(require('../pages/teacherLis
 const lessonList = r => require.ensure([], () => r(require('../pages/lessonList')), 'lessonList')
 const payResultList = r => require.ensure([], () => r(require('../pages/payResultList')), 'payResultList')
 const sysMsgList = r => require.ensure([], () => r(require('../pages/sysMsgList')), 'sysMsgList')
+const couponList = r => require.ensure([], () => r(require('../pages/couponList')), 'couponList')
+const evaluate = r => require.ensure([], () => r(require('../pages/evaluate')), 'evaluate')
 
 const demo =r => require.ensure([], () => r(require('../pages/demo')), 'demo')
 const left =r => require.ensure([], () => r(require('../pages/swipeleftdelete')), 'left')
 
+const lessonDetail = r => require.ensure([], () => r(require('../pages/lessonDetail')), 'lessonDetail')
+const croomDetail = r => require.ensure([], () => r(require('../pages/classroomDetail')), 'croomDetail')
+const teacherDetail = r => require.ensure([], () => r(require('../pages/teacherDetail')), 'teacherDetail')
 export default [{
     path: '/',
     component: App,
@@ -65,8 +70,36 @@ export default [{
         component: lessonList
     },
     {
+        path: '/lessonDetail',
+        component: lessonDetail
+    },
+    {
+        path: '/croomDetail',
+        component: croomDetail
+    },
+    {
+        path: '/croomDetail:id',
+        component: croomDetail
+    },
+    {
+        path: '/lessonDetail:detailId',
+        component: lessonDetail
+    },
+    {
+        path: '/teacherDetail:tid',
+        component: teacherDetail
+    },
+    {
+        path: '/teacherDetail',
+        component: teacherDetail
+    },
+    {
         path: '/payResultList',
         component: payResultList
+    },
+    {
+        path: '/couponList',
+        component: couponList
     },
     {
         path: '/sysMsgList',
@@ -95,6 +128,10 @@ export default [{
     {
         path: '/password',
         component: password
+    },
+    {
+        path: '/evaluate',
+        component: evaluate
     },
     {
         path: '/demo',

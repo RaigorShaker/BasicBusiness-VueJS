@@ -9,7 +9,7 @@
         </div>
         
         <div class="banner">
-                <mt-swipe :show-indicators="false" class="banner" :auto="0">
+                <mt-swipe :show-indicators="true" class="banner" :auto="3000">
                     <mt-swipe-item v-for="item in mainIndexData.banner_list"><img :src="baseUrl + item.base_url"/></mt-swipe-item>
                 </mt-swipe>
         </div>
@@ -53,14 +53,15 @@
                         <div class="classroom-number">{{ mainIndexData.all_member }}位家长选择我们</div>
                     </div>
                 </router-link>
-                
             </div>
         </div>
         <div class="activity">
-            <div class="activity-item" v-for="item in mainIndexData.acti_list">
-                <img :src="item.acti_pic"/>
-                <div class="item-title">{{ item.name }}</div>
-            </div>
+            <router-link :to="'/actDetail?detailId=' + item.id" v-for="item in mainIndexData.acti_list">
+                <div class="activity-item" >
+                    <img :src="baseUrl + item.base_url"/>
+                    <div class="item-title">{{ item.name }}</div>
+                </div>
+            </router-link>
         </div>
     </div>                         
 </template>
@@ -79,10 +80,10 @@
         name: 'home',
         data() {
             return {
+                baseUrl: 'http://www.studyyx.com',
                 mainIndexData: {},
                 pastle: false,
                 message: '',
-                baseUrl:'http://www.mihuyu.top'
             }
         },
         components: {
@@ -103,9 +104,6 @@
             }
         },
         created() {
-            // console.log('test')
-            console.log(this.$route)
-
             document.title = "琴房App"
             var pageId = this.$route.query.pageId
             this.title = this.$route.query.title == undefined ? '琴房App' : this.$route.query.title
@@ -118,7 +116,6 @@
             }).
             then(res => {
                 if(res.data.code == 0){
-                    console.log(res.data.data)
                     _vue.mainIndexData = res.data.data;
                 }else{
                     _vue.setErrorMessage(res.data.message);
@@ -262,6 +259,7 @@
         .activity{
             margin: 17px 10px 50px 10px;
             overflow: hidden;
+            padding-bottom: 50px;
             .activity-item{
                 width: 100%;
                 background: #fff;

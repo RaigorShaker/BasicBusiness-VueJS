@@ -1,32 +1,73 @@
 {
-	"code": 0,
-	"mes": "ok",
-	"data": {
-		"data_list": [
-			{
-				"date": "2017-09-20",
-				"pay_for": "报名小提琴",
-				"info_pay": "480",
-				"info_pay_from": "1",
-				"pay_num": "20170920144120123456",
-				"status": "1"
-			},
-			{
-				"date": "2017-09-20",
-				"pay_for": "报名小提琴",
-				"info_pay": "480",
-				"info_pay_from": "1",
-				"pay_num": "20170920144120123456",
-				"status": "1"
-			},
-			{
-				"date": "2017-09-20",
-				"pay_for": "报名小提琴",
-				"info_pay": "480",
-				"info_pay_from": "1",
-				"pay_num": "20170920144120123456",
-				"status": "1"
-			},
-		]
-	}
+    "status": {
+        "teacher_detail": {
+            "id": "11",
+            "user_id": "0",
+            "head_img": "/piano/piano/App/Uploads/teacher/59be7e3c0bdc9.png",
+            "name": "111",
+            "subject": [
+                {
+                    "name": "声乐"
+                },
+                {
+                    "name": "架子鼓"
+                },
+                {
+                    "name": "吉他"
+                }
+            ],
+            "address": "北京市朝阳区高碑店路185号",
+            "longitude": "116.533829",
+            "latitude": "39.888784079083",
+            "province": null,
+            "city": "北京市",
+            "area": "朝阳区",
+            "working_day": null,
+            "startDate": null,
+            "endDate": null,
+            "startTime": null,
+            "endTime": null,
+            "honor_info": "<p>1.荣获全省教室荣誉奖项</p><p>2.荣获全省教室荣誉奖项</p><p>3.荣获全省教室荣誉奖项</p><p>4.荣获全省教室荣誉奖项</p><p>5.荣获全省教室荣誉奖项</p>",
+            "detail_desc": "<p>22</p>",
+            "desc": "荣获全省教室荣誉奖项",
+            "price": "100.00",
+            "sort": "2",
+            "created_at": "2017-09-17 09:53:00"
+        },
+        "course_list": [
+            {
+                "id": "2",
+                "name": "小提琴课",
+                "teacher_id": "11",
+                "subject_id": "1",
+                "subject_name": "小提琴高级就业班",
+                "introduce": "<p>1111</p>",
+                "num": "30",
+                "price": "300.00",
+                "is_public": null,
+                "status": "1",
+                "date": "2017-09-03",
+                "startTime": "09:00:00",
+                "endTime": "17:00:00",
+                "class_id": null,
+                "room_id": null,
+                "created_at": "2017",
+                "updated_at": null
+            }
+        ],
+        "teacher_pic": [
+            {
+                "id": "6",
+                "type": "2",
+                "type_id": "11",
+                "title": "1111",
+                "url": "thumb_59c1d0557e4ef.png",
+                "thumb": null,
+                "content": "<p>1111</p>",
+                "status": "1",
+                "created_at": "1505874005",
+                "base_url": "/piano/piano/App/Uploads/Image/thumb_59c1d0557e4ef.png"
+            }
+        ]
+    }
 }

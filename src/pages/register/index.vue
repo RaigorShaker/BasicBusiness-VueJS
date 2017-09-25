@@ -78,6 +78,22 @@ import { Indicator } from 'mint-ui';
       				spinnerType: 'fading-circle'
       			})
       			//将手机号码发送至后台去发送验证码，同时将手机号参数带入下一个验证码填写页面，TBD
+            var _vue = this;
+            _vue.$ajax.get(ApiControl.getApi(env, "reg"), {
+                params:{
+                    act: 'reg',
+                    phone: _vue.phone
+                }
+            }).
+            then(res => {
+                Indicator.close();
+                if(res.data.code == 0){
+                    this.$router.push('/validate');
+                }else{
+                    _vue.setMessage(res.data.mes);
+                }
+                
+            })
       		}
       	}
       }
@@ -141,7 +157,8 @@ body{
 		margin: 0 30px;
 		font-size: 12px;
 		font-weight: bold;
-		color: #CBCBCB
+		color: #CBCBCB;
+    padding-bottom: 30px;
 	}
   }
 }

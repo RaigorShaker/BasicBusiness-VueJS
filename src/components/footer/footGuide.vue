@@ -21,8 +21,7 @@
       }
     },
     created() {
-      console.log('test')
-      console.log(this.$route.meta.hasMenu)
+
     },
     mounted() {
 
