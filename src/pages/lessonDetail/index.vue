@@ -7,7 +7,7 @@
       <div class="lesson-info"><span class="lesson-price">¥ {{ item.course_info.price }}</span><span class="lesson-num">{{ item.course_info.sign_up }}人报名/</span><span class="lesson-leave">剩余{{ item.course_info.leave_num }}名额</span>
       </div>
       <mt-progress :value="processValue" :bar-height="5"></mt-progress>
-      <router-link :to="'/subscribe'">
+      <router-link :to="'/placeOrder?rid=' + item.course_info.id">
         <div class="subscribe">去预约</div>
       </router-link>
     </div>
