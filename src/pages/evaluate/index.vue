@@ -7,7 +7,24 @@
     <div class="tips">
       {{ tip }}
     </div>
-    
+    <div class="box">
+      <div class="box-container" v-for="(item,k1) in boxItem">
+        <div class="box-item" v-for="(cont,k2) in item.boxShow" :class="{'box-item-1': k2 == 0,'box-item-2': k2 == 1}">
+          <div class="box-content" :class="{'box-item-choose': cont.show}" @click="checkBox(k1,k2)">{{ cont.content }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="word">
+      <textarea class="input-area">
+        
+      </textarea>
+      <div class="word-recommend">100字</div>
+    </div>
+    <div class="submit-evaluate">
+      <div class="submit-text" @click="submitEvaluate">
+        提交评价
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,7 +55,7 @@
               selected: 0,
             },
             {
-              selected: 1,
+              selected: 0,
             },
             {
               selected: 0,
@@ -47,7 +64,44 @@
               selected: 0,
             }
           ],
-          tip: ""
+          tip: "",
+          boxItem: [
+            {
+              boxShow: [
+                {
+                  content: '认真负责',
+                  show:false
+                },
+                {
+                  content: '热心亲切',
+                  show:false
+                },
+                {
+                  content: '博学多识',
+                  show:false
+                }
+              ]
+            },
+            {
+              boxShow: [
+                {
+                  content: '内容丰富',
+                  show:false
+                },
+                {
+                  content: '受益匪浅',
+                  show:false
+                },
+                {
+                  content: '真诚教导',
+                  show:false
+                }
+              ]
+            }
+          ],
+          result: [
+
+          ]
        }
      },
     methods:{
@@ -61,6 +115,16 @@
           this.starList[j].selected = 0;
         }
         this.tip = tips[index];
+      },
+      checkBox: function(k1,k2){
+        this.boxItem[k1].boxShow[k2].show = !this.boxItem[k1].boxShow[k2].show;
+        // if(this.boxItem[k1].boxShow[k2].show){
+        //   this.result.push(this.boxItem[k1].boxShow[k2].content);
+        // }
+        // console.log(this.result)
+      },
+      submitEvaluate: function(){
+
       }
     },  
     filters: {
@@ -112,10 +176,75 @@
       text-align: center;
       font-weight: bolder;
       color: #303134;
-      padding-bottom: 47px;
+      padding-bottom: 20px;
       border-bottom: 1px dashed #eee;
       line-height: 20px;
       height: 20px;
+    }
+    .box{
+      background: #fff;
+      .box-container{
+        margin: 20px;
+        .box-item{
+          display: inline-block;
+          width: calc(~"(100% - 10px)/3");
+          text-align: right;
+          .box-content{
+            display: inline-block;
+            width: 70px;
+            height: 30px;
+            font-size: 13px;
+            line-height: 30px;
+            border-radius: 20px;
+            text-align: center;
+            background: #eee;
+            color: #ddd;
+          }
+          .box-content.box-item-choose{
+            background: rgb(245,149,49);
+            color: #fff;
+          }
+        }
+        .box-item.box-item-1{
+          text-align: left;
+        }
+        .box-item.box-item-2{
+          text-align: center;
+        }
+      }
+    }
+    .word{
+      background: #fff;
+      .input-area{
+        margin: 20px 20px 0 20px;
+        height: 120px;
+        width: calc(~"(100% - 40px)");
+        border-bottom: 1px solid #ddd;
+        font-size: 15px;
+      }
+      .word-recommend{
+        font-size: 12px;
+        color: #ddd;
+        text-align: right;
+        margin-right: 20px;
+      }
+    }
+    .submit-evaluate{
+      height: 50px;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      right: 0;
+      bottom: 20px;
+      width: 100%;
+      .submit-text{
+        margin: 0 20px;
+        background: rgb(245,149,49);
+        font-size: 16px;
+        line-height: 50px;
+        text-align: center;
+        color: #fff;
+      }
     }
   }
 </style>

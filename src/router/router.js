@@ -7,6 +7,8 @@ const password = r => require.ensure([], () => r(require('../pages/password')), 
 const actDetail = r => require.ensure([], () => r(require('../pages/activityDetail')), 'actDetail')
 const croomList = r => require.ensure([], () => r(require('../pages/classroomList')), 'croomList')
 const placeOrder = r => require.ensure([], () => r(require('../pages/placeOrder')), 'placeOrder')
+const placeOrderTeacher = r => require.ensure([], () => r(require('../pages/placeOrderTeacher')), 'placeOrderTeacher')
+
 const profile = r => require.ensure([], () => r(require('../pages/profile')), 'profile')
 const subscribe = r => require.ensure([], () => r(require('../pages/subscribe')), 'subscribe')
 const teacherList = r => require.ensure([], () => r(require('../pages/teacherList')), 'teacherList')
@@ -22,6 +24,9 @@ const left =r => require.ensure([], () => r(require('../pages/swipeleftdelete'))
 const lessonDetail = r => require.ensure([], () => r(require('../pages/lessonDetail')), 'lessonDetail')
 const croomDetail = r => require.ensure([], () => r(require('../pages/classroomDetail')), 'croomDetail')
 const teacherDetail = r => require.ensure([], () => r(require('../pages/teacherDetail')), 'teacherDetail')
+const messageList = r => require.ensure([], () => r(require('../pages/messageList')), 'messageList')
+const myOrder = r => require.ensure([], () => r(require('../pages/myorder')), 'myOrder')
+const login = r => require.ensure([], () => r(require('../pages/login')), 'login')
 export default [{
     path: '/',
     component: App,
@@ -56,6 +61,10 @@ export default [{
     {
         path: '/actList',
         component: actList
+    },
+    {
+        path: '/login',
+        component: login
     },
     {
         path: '/croomList',
@@ -106,8 +115,20 @@ export default [{
         component: sysMsgList
     },
     {
+        path: '/placeOrder:rid',
+        component: placeOrder
+    },
+    {
         path: '/placeOrder',
         component: placeOrder
+    },
+    {
+        path: '/placeOrderTeacher:tid',
+        component: placeOrderTeacher
+    },
+    {
+        path: '/placeOrderTeacher',
+        component: placeOrderTeacher
     },
     {
         path: '/actDetail:detailId',
@@ -116,6 +137,10 @@ export default [{
     {
         path: '/actDetail',
         component: actDetail
+    },
+    {
+        path: '/messageList',
+        component: messageList
     },
     {
         path: '/register',
@@ -128,6 +153,18 @@ export default [{
     {
         path: '/password',
         component: password
+    },
+    {
+        path: '/evaluate',
+        component: evaluate
+    },
+    {
+        path: '/myOrder',
+        component: myOrder
+    },
+    {
+        path: '/myOrder:status',
+        component: myOrder
     },
     {
         path: '/evaluate',

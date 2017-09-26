@@ -27,7 +27,7 @@ import ApiControl from '../../config/envConfig.home'
 export default {
    data() {
       return {
-        baseUrl: 'http://www.mihuyu.top',
+        baseUrl: '',
         startX:0,   //触摸位置
         endX:0,     //结束位置
         moveX: 0,   //滑动时的位置
@@ -135,7 +135,6 @@ export default {
     }).
     then(res => {
         if(res.data.code == 0){
-            console.log(res.data.data)
             _vue.activityList = this.wrapperList(res.data.data.data_list);
 
         }else{

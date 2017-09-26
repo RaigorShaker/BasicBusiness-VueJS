@@ -2,15 +2,26 @@
 <template>
 	<div class="validate">
     <div class="recommend">
-      设置密码
+      登录
     </div>
     <div class="phone">
+      <input @keyup="keyupfunc" class="info-input" placeholder="请输入手机号" type="tel" maxlength="11" v-model="phone"/>
+    </div>
+    <div class="enter-password">
       <input @keyup="keyupfunc" class="info-input" placeholder="请设置密码" type="password" maxlength="11" v-model="password"/>
       <img class="close-button" @click="removePass" src="../../static/images/mainIndex/close-button.png" v-show="clickable"/>
     </div>
 		<div class="button">
-			<div class="register-button" @click="submitPassword" v-bind:class="{'button-click': clickable}">确认新密码</div>
+			<div class="register-button" @click="submitPassword" v-bind:class="{'button-click': clickable}">登入</div>
 		</div>
+    <div class="login-other">
+      <router-link :to="'/register'">
+        <div class="login-forget">忘记密码?</div>
+      </router-link>
+      <router-link :to="'/register'">
+        <div class="login-register">新用户注册</div>
+      </router-link>
+    </div>
 		<error-message v-bind="{pastle: pastle,message: message}"></error-message>
 	</div>
 </template>
@@ -152,31 +163,54 @@ body{
       text-align: center;
       padding-top: 72px;
     }
-    .phone{
+        .phone{
+          margin: 0px 30px 0 30px;
+          padding-top: 82px;
+          border-bottom: 1px solid #ddd;
+        .number-head{
+          font-size: 15px;
+          color: #000;
+          margin-right: 17px;
+          font-weight: bolder;
+        }
+        .info-input{
+          font-size: 15px;
+          font-weight: bolder;
+          line-height: 34px;
+          vertical-align: middle;
+          border: none;
+          width: 100%;
+        }
+        }
+    .enter-password{
       margin: 0px 30px 0 30px;
-      padding-top: 82px;
       background: none;
       border-bottom: 1px solid #ddd;
-      input{
-        background: transparent;
-      }
-    .number-head{
-      font-size: 15px;
-      color: #000;
-      margin-right: 17px;
-      font-weight: bolder;
+        input{
+          background: transparent;
+        }
+        .number-head{
+          font-size: 15px;
+          color: #000;
+          margin-right: 17px;
+          font-weight: bolder;
 
-    }
-    .info-input{
-      font-size: 17px;
-      font-weight: bolder;
-      line-height: 34px;
-      vertical-align: middle;
-      border: none;
-    }
-    .close-button{
-      float: right;
-    }
+        }
+      .info-input{
+        font-size: 17px;
+        font-weight: bolder;
+        line-height: 34px;
+        vertical-align: middle;
+        border: none;
+        width: calc(~"(100% - 40px)");
+      }
+      .close-button{
+        float: right;
+        padding-top: 10px;
+        width: 15px;
+        height: 15px;
+        padding-right: 6px;
+      }
     }
       .button{
         margin: 33px 30px 23px 30px;
@@ -194,6 +228,19 @@ body{
           background: #f6ab2c;
         }
       }
+    .login-other{
+      color: #427cf3;
+      margin: 0px 30px 0 30px;
+      .login-forget{
+        display: inline-block;
+        float: left;
+      }
+      .login-register{
+        display: inline-block;
+        float: right;
+      }
+    }
   }
+
 }
 </style>

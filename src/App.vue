@@ -78,7 +78,7 @@ import { mapState ,mapMutations} from 'vuex';
 
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
     @import './static/style/common.less';
     .router-fade-enter-active,
     .router-fade-leave-active {

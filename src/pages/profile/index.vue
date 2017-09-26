@@ -20,23 +20,31 @@
 		<div class="menu">
 			<!-- 我的订单 -->
 			<div class="my-order">
-				<div class="my-order-title">
-					<img src="../../static/images/profile/order-icon.png"/>
-					<div class="normal-text">我的订单</div>
-				</div>
+				<router-link :to="'/myOrder'" class="order-link">
+					<div class="my-order-title">
+						<img src="../../static/images/profile/order-icon.png"/>
+						<div class="normal-text">我的订单</div>
+					</div>
+				</router-link>
 				<div class="order-menu">
-					<div class="order-prepay">
-						<img src="../../static/images/profile/daifukuan.png"/>
-						<div class="order-type-text">待付款</div>
-					</div>
-					<div class="order-preservice">
-						<img src="../../static/images/profile/daifuwu.png"/>
-						<div class="order-type-text">待服务</div>
-					</div>
-					<div class="order-pretalk">
-						<img src="../../static/images/profile/daipingjia.png"/>
-						<div class="order-type-text">待评价</div>
-					</div>
+					<router-link :to="'/myOrder?status=1'">
+						<div class="order-prepay">
+							<img src="../../static/images/profile/daifukuan.png"/>
+							<div class="order-type-text">待付款</div>
+						</div>
+					</router-link>
+					<router-link :to="'/myOrder?status=2'">
+						<div class="order-preservice">
+							<img src="../../static/images/profile/daifuwu.png"/>
+							<div class="order-type-text">待服务</div>
+						</div>
+					</router-link>
+					<router-link :to="'/myOrder?status=3'">
+						<div class="order-pretalk">
+							<img src="../../static/images/profile/daipingjia.png"/>
+							<div class="order-type-text">待评价</div>
+						</div>
+					</router-link>
 				</div>
 			</div>
 			<!-- 优惠券 -->
@@ -173,6 +181,9 @@
  			.my-order{
  				margin: 14px 25px 0 25px;
  				border-bottom: 1px solid #e6e6e6;
+ 				.order-link{
+ 					text-decoration: none;
+ 				}
  				.my-order-title{
  					img{
  						width: 20px;

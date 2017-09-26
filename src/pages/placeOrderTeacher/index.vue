@@ -383,7 +383,7 @@
       created:function(){
         document.title = "下单"
         var _vue = this;
-        var roomId = this.$route.query.rid
+        var teacherId = this.$route.query.tid
         _vue.$ajax.get(ApiControl.getApi(env, "croomList"), {
             params:{
                 act: '07'

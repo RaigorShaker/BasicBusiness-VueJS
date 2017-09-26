@@ -1,61 +1,72 @@
 <!-- 我的订单页面 -->
 <template>
 	<div class="order_main" @click="hideMsg">
-
-		<div class="index_form">
-			<div class="index_bind">
-					<input class="index_bind_text" type="text" id="" name="" v-model="orderNumber" placeholder="粘贴绑定订单号"/>
-					<button @click="submitOrder" class="index_submit">提交</button>
-			</div>
-		</div>
 		<div class="index_ul">
 			<ul>
-				<li :class="{active: orderStatus == 0}"><a @click="changeStatus(0)">待跟踪</a></li>
-				<li :class="{active: orderStatus == 1}"><a @click="changeStatus(1)">跟踪中</a></li>
-				<li :class="{active: orderStatus == 2}"><a @click="changeStatus(2)">待发放</a></li>
-				<li :class="{active: orderStatus == 3}"><a @click="changeStatus(3)">已发放</a></li>
-				<li :class="{active: orderStatus == 4}"><a @click="changeStatus(4)">无效</a></li>
-				<li :class="{active: orderStatus == -1}"><a @click="changeStatus(-1)">全部</a></li>
+				<li :class="{active: orderStatus == 0}"><a @click="changeStatus(0)">全部</a></li>
+				<li :class="{active: orderStatus == 1}"><a @click="changeStatus(1)">待付款</a></li>
+				<li :class="{active: orderStatus == 2}"><a @click="changeStatus(2)">待服务</a></li>
+				<li :class="{active: orderStatus == 3}"><a @click="changeStatus(3)">待评价</a></li>
+				<li :class="{active: orderStatus == 4}"><a @click="changeStatus(4)">已完成</a></li>
 			</ul>
 		</div>
-		<div id="index_order" v-if="orderList.length == 0">
+		<!-- <div id="index_order" v-if="orderList.length == 0">
 			<img src="../../static/images/icon_null.png"/>
 			<p>您还没有相关订单，快去<router-link :to="'/home'" style="color:#fd472b">首页</router-link>逛逛吧</p>
-		</div>
+		</div> -->
 		<div class="order_main"  v-if="orderList.length != 0" v-load-more="loaderMore">
 			<!--<template  v-if="orderStatus != 0">-->
-				<template>
-				<div class="index_thing" v-for="item in orderList" :key="item.id">
-					<div class="top">
-						<span class="time">提交时间：{{ item.createTime }}</span>
-						<em v-if="orderStatus == -1" :style="{color:orderStatusColors[item.status]}">{{ orderText[item.status]}}</em>
-					</div>
-					<!-- <div class="index_img">
-						<img :src="item.productImg"/>
-					</div> -->
-					<div class="content">
-						<div class="title" v-if="item.status!= 4&&item.status!= 0">{{ item.productName }}</div>
-						<div class="order">
-							<span>订单号：{{ item.orderSn }}</span>
-							<span v-if="item.status!= 4&&item.status!= 0">返积分：{{ item.point }}</span>
-						</div>
-						<span class="pay" v-if="item.status!= 4&&item.status!= 0">支付金额：￥{{ item.payAmount }}</span>
-					</div>
+			<template>
+                <!-- 教室订单 type= 0-->
+				<div class="cid_order" v-for="item in orderList" :key="item.id" v-if="item.type == 0">
+					
 				</div>
+                <!-- 老师订单 type= 1 -->
+                <div class="tid_order" v-for="item in orderList" :key="item.id" v-if="item.type == 1">
+                    
+                </div>
+                <!-- 课程订单 type=2 -->
+                <div class="lid_order" v-for="item in orderList" :key="item.id" v-if="item.type == 2">
+                    
+                </div>
+                <div class="order-item" v-for="item in orderList">
+                    <div class="order-time">
+                        <div class="lesson_icon"><img src="../../static/images/subscribe/subscribe-calendar.png"/></div>
+                        <div class="lesson_date">预约日期:{{ item.date }}</div>
+                    </div>
+                    <div class="tid-order" v-if="item.type == 1">
+                        <img class="tid-image" :src="item.teacher_info.head_img" />
+                        <span class="tid-name">{{ item.teacher_info.name }}</span>
+                    </div>
+                    <div class="lid-order" v-if="item.type == 2">
+                        <div class="lid-info">
+                            <img src='../../static/images/subscribe/subscribe-calendar.png'/>
+                            <span class="lid-detail">{{ item.class_info.name }}</span>
+                        </div>
+                        <div class="lid-image">
+                            <img :src="item.teacher_info.head_img"/>
+                        </div>
+                    </div>
+                    <div class="total">
+                        <div class="total-room">
+                            <img src="../../static/images/subscribe/subscribe-room.png"/>
+                            <span class="room-info">教室: {{ item.room_info.name }}</span>
+                        </div>
+                        <div class="total-address">
+                            <img src="../../static/images/subscribe/subscribe-address.png"/>
+                            <span class="room-info">地址: {{ item.class_info.address }}</span>
+                        </div>
+                    </div>
+                    <div class="status" v-if="item.status == 1">
+                        <div class="order-status-end">已结束</div>
+                    </div>
+                    <div class="status" v-if="item.status == 2">
+                        <div class="order-status-subscribe">已预约</div>
+                        <img src="../../static/images/subscribe/subscribe-ma.png"/>
+                    </div>
+                </div>
 			</template>
-<!--<template v-if="orderStatus == 0">
-				<div class="index_thing" v-for="item in orderList" :key="item.id">
-					<div class="top">
-						<span class="time">提交时间：{{ item.createTime }}</span>
-					</div>
-					<div class="content">
-						<div class="order">
-							<span>订单号：{{ item.orderSn }}</span>
-						</div>
-					</div>
-				</div>
-			</template>-->
-</div>
+    </div>
 <!-- <p v-if="loading" class="empty_data">加载中</p>  
 		<p v-if="touchend" class="empty_data">没有更多了</p> -->
 <error-message v-bind="{pastle, message}"></error-message>
@@ -64,9 +75,6 @@
 <script>
     import ajax from '../../config/ajax'
     import ApiControl from '../../config/envConfig.home'
-    import {
-        mapMutations
-    } from 'vuex';
     import {
         loadMore,
         getImgPath
@@ -79,13 +87,62 @@
                     nickname: "",
                     orderNumber: '',
                     orderStatus: 1,
-                    orderList: [],
+                    orderList: [
+                        {
+                            type: 1,
+                            date: '2017/09/26',
+                            status: 1,
+                            teacher_info: {
+                                name: '孟老师',
+                                head_img: 'http://www.studyyx.com/piano/piano/App/Uploads/User/1.jpg'
+                            },
+                            class_info:{
+                                name: '小提琴班',
+                                address: "徐汇区天钥桥路100号"
+                            },
+                            room_info:{
+                                name: '徐汇区天钥桥路店'
+                            }
+                        },
+                        {
+                            type: 2,
+                            date: '2017/09/26',
+                            status: 2,
+                            teacher_info: {
+                                name: '孟老师',
+                                head_img: 'http://www.studyyx.com/piano/piano/App/Uploads/User/1.jpg'
+                            },
+                            class_info:{
+                                name: '小提琴班',
+                                address: "徐汇区天钥桥路100号"
+                            },
+                            room_info:{
+                                name: '徐汇区天钥桥路店'
+                            }
+                        },
+                        {
+                            type: 0,
+                            date: '2017/09/26',
+                            status: 1,
+                            teacher_info: {
+                                name: '孟老师',
+                                head_img: 'http://www.studyyx.com/piano/piano/App/Uploads/User/1.jpg'
+                            },
+                            class_info:{
+                                name: '小提琴班',
+                                address: "徐汇区天钥桥路100号"
+                            },
+                            room_info:{
+                                name: '徐汇区天钥桥路店'
+                            }
+                        }
+                    ],
                     orderText: {
-                        0: '待跟踪',
-                        1: '跟踪中',
-                        2: '待发放',
-                        3: '已发放',
-                        4: '无效'
+                        0: '全部',
+                        1: '待付款',
+                        2: '待服务',
+                        3: '待评价',
+                        4: '已完成'
                     },
                     orderStatusColors: {
                         0: '#28bc06',
@@ -105,50 +162,11 @@
             },
             mixins: [loadMore, getImgPath],
             methods: {
-                ...mapMutations([
-                    'buryPoint'
-                ]),
-                submitOrder: function() {
-                    if (this.orderNumber != '') {
-                        var eventId = '我的订单';
-                        var label = '提交';
-                        this.buryPoint({
-                            eventId,
-                            label
-                        });
-                        var _vue = this;
-                        _vue.$ajax.post(ApiControl.getApi(env, "submitOrder"), {
-                            orderNo: _vue.orderNumber
-                        }).
-                        then(res => {
-                            //提交成功刷新跟踪中列表
-                            // if(res.code == 200){
-                            if (res.data.code == 0) {
-                                // this.setErrorMessage(`订单号：${this.orderNumber}`, res.data.message);
-                                this.setErrorMessage(`订单号：${this.orderNumber}`, '已经成功提交,正常24小时之内可以跟踪到,耐心等待哦');
-                                _vue.orderNumber = '';
-                                _vue.orderStatus = 0;
-                                _vue.queryOrder();
-                                // this.orderStatus = 0
-                            } else {
-                                this.setErrorMessage(`订单号：${this.orderNumber}`, res.data.message);
-                                // _vue.setErrorMessage(res.data.message);
-                            }
-                        })
-                    }
-                },
                 changeStatus: function(status) {
                     this.orderStatus = status;
                     this.page = 1;
                     this.preventRepeatReuqest = false;
                     this.touchend = false;
-
-                    var eventId = '我的订单';
-                    var label = 'TAB页';
-                    this.buryPoint({
-                        eventId,
-                        label
-                    });
                     this.queryOrder();
                 },
                 queryOrder: function() {
@@ -222,20 +240,20 @@
                 }
             },
             created() {
+                var status = this.$route.query.status
                 //页面初始化，获取跟踪中订单信息
                 var _vue = this;
-                _vue.$ajax.get(ApiControl.getApi(env, "getMyOrder"), {
+                _vue.$ajax.get(ApiControl.getApi(env, "orderList"), {
                     params: {
-                        status: 1,
-                        pageNo: 1
+                        status: status
                     }
                 }).
                 then(res => {
                     //提交成功刷新跟踪中列表
                     if (res.data.code == 0) {
-                        _vue.orderList = res.data.result.list;
+                        _vue.orderList = res.data.data.order_list;
                     } else {
-                        _vue.setErrorMessage(res.data.message);
+                        _vue.setErrorMessage(res.data.mes);
                     }
                 })
             },
@@ -253,51 +271,12 @@
         padding: 0px;
         font-family: 'PingFangSC-Regular';
         .order_main {
-            background-color: #fff;
+            background: #eee;
             width: 100%;
             height: 100%;
             margin: 0 auto;
             text-align: center;
             float: left;
-            .index_form {
-                padding-top: 15px;
-                padding-bottom: 18px;
-                padding-left: 15px;
-                padding-right: 15px;
-                float: left;
-                width: 100%;
-                .index_bind {
-                    width: 100%;
-                    margin: 0 auto;
-                    .index_bind_text {
-                        width: 71%;
-                        height: 44px;
-                        line-height: 44px;
-                        border-top: 1px solid #d2d2d2;
-                        border-bottom: 1px solid #d2d2d2;
-                        border-left: 1px solid #d2d2d2;
-                        font-size: 13px;
-                        border-top-left-radius: 5px;
-                        -webkit-border-bottom-left-radius: 5px;
-                        padding-left: 13px;
-                        float: left;
-                        &::-webkit-input-placeholder {
-                            color: #b3bac1;
-                        }
-                    }
-                    .index_submit {
-                        width: 29%;
-                        height: 44px;
-                        font-size: 15px;
-                        color: #fff;
-                        float: left;
-                        background-color: #ff5a00;
-                        border-top-right-radius: 5px;
-                        -webkit-border-bottom-right-radius: 5px;
-                        float: left;
-                    }
-                }
-            }
             .index_ul {
                 background-color: #f5f5f5;
                 width: 100%;
@@ -310,6 +289,9 @@
                     width: 100%;
                     height: 40px;
                     display: flex;
+                    padding-left: 0px;
+                    margin-bottom: 20px;
+                    margin-top: 0px;
                     li {
                         font-size: 14px;
                         text-align: center;
@@ -343,7 +325,6 @@
             }
             .order_main {
                 height: auto;
-                background-color: #eee;
                 border-top: 1px solid @bdColor;
                 .index_thing {
                     float: left;
@@ -427,6 +408,138 @@
                             display: block;
                             margin: 13px 0px 15px;
                             float: left;
+                        }
+                    }
+                }
+                .order-item{
+                    text-align: left;
+                    background: #fff;
+                    margin-bottom: 20px;
+                    margin-left: 20px;
+                    margin-right: 20px;
+                    .order-time{
+                        height: 40px;
+                        line-height: 40px;
+                        border-bottom: 1px dashed #ddd;
+                        margin-bottom: 30px;
+                        background: #ddd;
+                        text-align: left;
+                        .lesson_icon{
+                          display: inline-block;
+                          text-align: center;
+                          width: 30px;
+                          border-right: 1px solid #ddd;
+                          line-height: 25px;
+                          margin-left: 20px;
+                          img{
+                            width: 12px;
+                            height: 12px;
+                            vertical-align: middle;
+                          }
+                        }
+                        .lesson_date{
+                          display: inline-block;
+                        }
+                    }
+                    .tid-order{
+                        height: 60px;
+                        margin: 0 40px;
+                        background: #fff;
+                        border-bottom: 1px dashed #ddd;
+                        img{
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 20px;
+                            margin-right: 10px;
+                            vertical-align: top;
+                        }
+                        .tid-name{
+                            font-size: 20px;
+                            font-weight: bolder;
+                            line-height: 40px;
+                        }
+                    }
+                    .lid-order{
+                        height: 60px;
+                        margin: 0 40px;
+                        background: #fff;
+                        border-bottom: 1px dashed #ddd;
+                        .lid-info{
+                            display: inline-block;
+                            img{
+                                width: 18px;
+                                height: 18px;
+                                margin-right: 5px;
+                            }
+                            .lid-detail{
+                                font-size: 20px;
+                                font-weight: bolder;
+                                line-height: 40px;
+                            }
+                        }
+                        .lid-image{
+                            display: inline-block;
+                            vertical-align: top;
+                            float: right;
+                            img{
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 20px;
+                                margin-right: 10px;
+                            }
+                        }
+                    }
+                    .total{
+                        height: 100px;
+                        margin: 40px 40px 20px 40px;
+                        border-bottom: 1px dashed #ddd;
+                        .total-room{
+                            margin-bottom: 10px;
+                            img{
+                                width: 18px;
+                                height: 18px;
+                                margin-right: 10px;
+                                vertical-align: top;
+                            }
+                            .room-info{
+                                font-size: 16px;
+                                line-height: 22px;
+                            }
+                        }
+                        .total-address{
+                            margin-bottom: 10px;
+                            img{
+                                width: 18px;
+                                height: 18px;
+                                margin-right: 10px;
+                                vertical-align: top;
+                            }
+                            .room-info{
+                                font-size: 16px;
+                                line-height: 22px;
+                            }
+                        }
+                    }
+                    .status{
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        padding-bottom: 15px;
+                        .order-status-end{
+                            display: inline-block;
+                            margin: 0 auto;
+                            border-left: 2px solid red;
+                            line-height: 16px;
+                            padding-left: 5px;
+                        }
+                        .order-status-subscribe{
+                            display:inline-block;
+                            margin:0 auto;
+                        }
+                        img{
+                            width : 15px;
+                            height: 15px;
+                            vertical-align: middle;
                         }
                     }
                 }

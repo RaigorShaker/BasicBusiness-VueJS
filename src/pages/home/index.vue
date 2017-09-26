@@ -63,6 +63,7 @@
                 </div>
             </router-link>
         </div>
+        <error-message v-bind="{pastle, message}"></error-message>
     </div>                         
 </template>
 
@@ -83,7 +84,7 @@
                 baseUrl: 'http://www.studyyx.com',
                 mainIndexData: {},
                 pastle: false,
-                message: '',
+                message: [],
             }
         },
         components: {

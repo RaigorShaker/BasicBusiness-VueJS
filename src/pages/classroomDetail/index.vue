@@ -12,9 +12,11 @@
       <div class="subscribe-price">
         ¥ <span>{{ detailInfo.class_detail.price }}</span> /小时
       </div>
-      <div class="submit">
-        <img src="../../static/images/evaluate/subscribe.png"/>立即预约
-      </div>
+      <router-link :to="'/placeOrder?id=' + detailInfo.class_detail.room_id">
+        <div class="submit">
+          <img src="../../static/images/evaluate/subscribe.png"/>立即预约
+        </div>
+      </router-link>
     </div>
 
     <div class="room">
@@ -37,7 +39,7 @@
       </div>
       <div class="intro-detail">
         <div class="detail-title">课程介绍</div>
-        <div class="detail-info">{{ detailInfo.class_detail.detail_desc }}</div>
+        <div class="detail-info" v-html="detailInfo.class_detail.detail_desc"></div>
       </div>
     </div>
     <div class="another">
@@ -132,6 +134,8 @@
         float: right;
         font-size: 16px;
         width: 40%;
+        text-align: right;
+        color:#000;
         img{
           width: 13px;
           height: 13px;

@@ -6,7 +6,7 @@
       <div class="info-left">
         <div class="info-course">
           <div class="course-img">
-            <img :src="teacher.teacher_detail.head_img"/>
+            <img :src="baseUrl + teacher.teacher_detail.head_img"/>
           </div>
           <div class="course-info">
             <div class="course-name">{{ teacher.course_list[0].name }}</div>
@@ -23,7 +23,7 @@
       <div class="info-right" :class="{'info-right-up': courseArrowShow,'info-right-down': !courseArrowShow}">
         
       </div>
-      <router-link :to="'/subscribe'">
+      <router-link :to="'/placeOrderTeacher?tid=' + teacher.teacher_detail.id">
         <div class="submit">
             点击购买
         </div>
@@ -107,6 +107,8 @@
           //     _vue.setErrorMessage(res.data.message);
           // }
           _vue.teacher = res.data.status;
+          console.log(_vue.teacher)
+          console.log(_vue.teacher.teacher_detail.head_img)
       })
 
     },

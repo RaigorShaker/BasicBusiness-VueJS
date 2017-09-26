@@ -59,30 +59,31 @@ if (context.length) {
 }
 
 // global proxy to mock
-// server.use(proxyMiddleware('/api',{
-//     target: 'http://www.studyyx.com/',
-//     changeOrigin: true,
-//     secure: false,
-//     pathRewrite: {
-//         '/api/mainIndex' : '/piano/piano/Index/Piano/get_parm',    
-//         '/api/actList' : '/piano/piano/Index/Piano/get_parm',
-//         '/api/actDetail' : '/piano/piano/Index/Piano/get_parm',
-//         '/api/croomList': '/piano/piano/Index/Piano/get_parm',
-//         '/api/courseList': '/piano/piano/Index/Piano/get_parm',
-//         '/api/mesList': '/piano/piano/Index/Piano/get_parm',
-//         '/api/sysMsgList': '/piano/piano/Index/Piano/get_parm',
-//         '/api/payResultMsg': '/piano/piano/Index/Piano/get_parm',
-//         '/api/couponList': '/piano/piano/Index/Piano/get_parm',
-//         '/api/userCenter': '/piano/piano/Index/Piano/get_parm',
-//         '/api/lessonDetail': '/piano/piano/Index/Piano/get_parm',
-//         '/api/croomDetail': '/piano/piano/Index/Piano/get_parm',
-//         '/api/teacherList': '/piano/piano/Index/Piano/get_parm',
-//         '/api/teacherDetail': '/piano/piano/Index/Piano/get_parm',
-//         '/api/reg': '/piano/piano/Index/Piano/get_parm',
-//         '/api/checkcode': '/piano/piano/Index/Piano/get_parm',
-//         '/api/setPwd': '/piano/piano/Index/Piano/get_parm',
-//     }
-// }))
+server.use(proxyMiddleware('/api',{
+    target: 'http://www.studyyx.com/',
+    changeOrigin: true,
+    secure: false,
+    pathRewrite: {
+        '/api/mainIndex' : '/piano/piano/Index/Piano/get_parm',    
+        '/api/actList' : '/piano/piano/Index/Piano/get_parm',
+        '/api/actDetail' : '/piano/piano/Index/Piano/get_parm',
+        '/api/croomList': '/piano/piano/Index/Piano/get_parm',
+        '/api/courseList': '/piano/piano/Index/Piano/get_parm',
+        '/api/mesList': '/piano/piano/Index/Piano/get_parm',
+        '/api/sysMsgList': '/piano/piano/Index/Piano/get_parm',
+        '/api/payResultMsg': '/piano/piano/Index/Piano/get_parm',
+        '/api/couponList': '/piano/piano/Index/Piano/get_parm',
+        '/api/userCenter': '/piano/piano/Index/Piano/get_parm',
+        '/api/lessonDetail': '/piano/piano/Index/Piano/get_parm',
+        '/api/croomDetail': '/piano/piano/Index/Piano/get_parm',
+        '/api/teacherList': '/piano/piano/Index/Piano/get_parm',
+        '/api/teacherDetail': '/piano/piano/Index/Piano/get_parm',
+        '/api/reg': '/piano/piano/Index/Piano/get_parm',
+        '/api/checkcode': '/piano/piano/Index/Piano/get_parm',
+        '/api/setPwd': '/piano/piano/Index/Piano/get_parm',
+        '/api/mesList': '/piano/piano/Index/Piano/get_parm',
+    }
+}))
 
 
 // handle fallback for HTML5 history API
