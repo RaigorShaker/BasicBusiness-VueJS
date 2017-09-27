@@ -242,7 +242,7 @@
             }
     }
 </script>
-<style lang="less">
+<style lang="less" scoped>
     @import "../../static/style/layout-mixin";
     @bdColor: #ddd;
     @borderColor: #f1f1f6;

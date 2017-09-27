@@ -97,7 +97,7 @@
     }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
     .activity-detail{
         width: 100%;
         background: #fff;

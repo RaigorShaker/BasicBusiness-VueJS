@@ -3,7 +3,7 @@
 	<div class="teacher">
     <!-- 课程介绍 -->
     <div class="info">
-      <div class="info-left">
+      <div class="info-left" :class="{'course-up': courseArrowShow,'course-down': !courseArrowShow}" >
         <div class="info-course">
           <div class="course-img">
             <img :src="baseUrl + teacher.teacher_detail.head_img"/>
@@ -31,7 +31,7 @@
     </div>
     <!-- 课程详情 -->
     <div class="detail">
-      <div class="detail-left" :class="{'detail-up': detailArrowShow,'detail-down': !detailArrowShow}" v-html="teacher.teacher_detail.detail">
+      <div class="detail-left" :class="{'detail-up': detailArrowShow,'detail-down': !detailArrowShow}" v-html="teacher.teacher_detail.detail_desc">
         
       </div>
       <div class="detail-right" @click="changeDetailArrow" :class="{'detail-right-up': detailArrowShow,'detail-right-down': !detailArrowShow}">
@@ -90,7 +90,7 @@
       }
     },
     created:function(){
-     	document.title = ""
+     	document.title = "老师详情"
       var tid = this.$route.query.id
       var _vue = this;
       _vue.$ajax.get(ApiControl.getApi(env, "teacherDetail"), {
@@ -107,8 +107,6 @@
           //     _vue.setErrorMessage(res.data.message);
           // }
           _vue.teacher = res.data.status;
-          console.log(_vue.teacher)
-          console.log(_vue.teacher.teacher_detail.head_img)
       })
 
     },
@@ -149,6 +147,9 @@
         width: calc(~"100% - 23px");
         background: #f6ab2c;
         padding: 0 27px;
+        height: 150px;
+        position: relative;
+        overflow: hidden;
         .info-course{
           padding-top: 30px;
           padding-bottom: 25px;
@@ -185,19 +186,28 @@
           overflow: hidden;
         }
         .course-intro.course-up{
-          max-height: 100px;
+          height: 150px;
         }
         .course-intro.course-down{
-          max-height: 150px;
+          height: 273px;
         }
         .course-direction{
           text-align: center;
           height: 20px;
           margin: 10px 0;
+          position: absolute;
+          bottom: 5px;
+          left: 50%;
           img{
             height: 15px;
           }
         }
+      }
+      .info-left.course-up{
+        height: 150px;
+      }
+      .info-left.course-down{
+        height: 273px;
       }
       .info-right{
         width: 14px;
@@ -205,15 +215,14 @@
         float: right;
       }
       .info-right-up{
-        height: 249px;
+        height: 150px;
       }
       .info-right-down{
-        height: 293px;
+        height: 273px;
       }
     }
     .detail{
       background: #eee;
-      margin: 0 20px;
       color: #cbcbcb;
       font-size: 11px;
       .detail-left{
@@ -221,8 +230,9 @@
         margin-top:20px;
         margin-bottom: 20px;
         padding-right: 15px;
-        border-right: 1px solid orange;
-        width: calc(~"100% - 30px");
+        padding-left:20px;
+        
+        width: calc(~"100% - 80px");
         overflow: hidden;
       }
       .detail-left.detail-up{
@@ -234,12 +244,18 @@
       .detail-right{
         display: inline-block;
         float: right;
-        margin-top: 30px;
+        margin-top: 20px;
         width: 20px;
         text-align: center;
+        padding-right: 50px;
+        border-left: 1px solid orange;
+        img{
+          width: 10px;
+          margin-left: 8px;
+        }
       }
       .detail-right-down{
-        margin-top: 40px;
+        // margin-top: 40px;
       }
     }
     .show{

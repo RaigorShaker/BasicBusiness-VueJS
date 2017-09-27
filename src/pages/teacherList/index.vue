@@ -160,7 +160,7 @@
       }
     },
   created:function(){
-    document.title = "教室列表"
+    document.title = "老师列表"
 
     var _vue = this;
     _vue.$ajax.get(ApiControl.getApi(env, "teacherList"), {
@@ -324,13 +324,15 @@ body{
     
   }
   .area-container{
-    height: 70px;
+    height: 55px;
     background: #fff;
     .select-area{
       display: inline-block;
       overflow: hidden;
-      float: right;
+      float: left;
       margin: 20px;
+      margin-bottom: 0px;
+      width: calc(~"(100% - 40px)");
       .select-type{
         width: 100px;
         height: 30px;
@@ -389,7 +391,7 @@ body{
           -moz-box-shadow: 0 0 1px #efeff4 inset;
           /*firefox*/
           -webkit-box-shadow: 0 0 1px #efeff4 inset;
-          width: 80%;
+          width: 70%;
           background: #efeff4;
           border: 1px solid #efeff4;
           color: #999;
@@ -404,7 +406,7 @@ body{
           z-index: 10;
       }
       .searching {
-          float: left;
+          float: right;
           width: 15%;
           height: 38px;
           line-height: 48px;

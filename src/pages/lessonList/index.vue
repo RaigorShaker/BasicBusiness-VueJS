@@ -272,13 +272,15 @@ body{
     
   }
   .area-container{
-    height: 70px;
+    height: 55px;
     background: #fff;
     .select-area{
       display: inline-block;
       overflow: hidden;
-      float: right;
+      float: left;
       margin: 20px;
+      margin-bottom: 0px;
+      width: calc(~"(100% - 40px)");
       .select-type{
         width: 100px;
         height: 30px;

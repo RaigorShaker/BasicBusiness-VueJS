@@ -27,6 +27,11 @@ const teacherDetail = r => require.ensure([], () => r(require('../pages/teacherD
 const messageList = r => require.ensure([], () => r(require('../pages/messageList')), 'messageList')
 const myOrder = r => require.ensure([], () => r(require('../pages/myorder')), 'myOrder')
 const login = r => require.ensure([], () => r(require('../pages/login')), 'login')
+
+const orderDetailCourse = r => require.ensure([], () => r(require('../pages/orderDetailCourse')), 'orderDetailCourse')
+const orderDetailTeacher = r => require.ensure([], () => r(require('../pages/orderDetailTeacher')), 'orderDetailTeacher')
+const orderDetailRoom = r => require.ensure([], () => r(require('../pages/orderDetailRoom')), 'orderDetailRoom')
+
 export default [{
     path: '/',
     component: App,
@@ -169,6 +174,34 @@ export default [{
     {
         path: '/evaluate',
         component: evaluate
+    },
+    {
+        path: '/evaluate?oid',
+        component: evaluate
+    },
+    {
+        path: '/orderDetailCourse:oid',
+        component: orderDetailCourse
+    },
+    {
+        path: '/orderDetailCourse',
+        component: orderDetailCourse
+    },
+    {
+        path: '/orderDetailTeacher:oid',
+        component: orderDetailTeacher
+    },
+    {
+        path: '/orderDetailTeacher',
+        component: orderDetailTeacher
+    },
+    {
+        path: '/orderDetailRoom:oid',
+        component: orderDetailRoom
+    },
+    {
+        path: '/orderDetailRoom',
+        component: orderDetailRoom
     },
     {
         path: '/demo',

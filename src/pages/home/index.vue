@@ -128,7 +128,7 @@
     }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
     .main-index{
         width: 100%;
         // height: 100%;
@@ -143,27 +143,29 @@
         .topBar{
             .message{
                 margin-left: 11px;
-                margin-top: 20px;
-                margin-bottom: 22px;
+                margin-bottom: 10px;
                 display: inline-block;
+                height: 20px;
+                margin-top: 3px;
                 img{
-                    width: 20px;
-                    height: 14px;
+                    width: 25px;
+                    height: 20px;
                     vertical-align: middle;
                     padding-right: 5px;
                 }
                 span{
-                    line-height: 14px;
-                    font-size: 14px;
+                    line-height: 25px;
+                    font-size: 18px;
                     font-weight: bold;
                     color: #fff;
+                    vertical-align: middle;
                 }
             }
         }
         
         .banner{
             height: 186px;
-            margin: 0 8px 17px 8px;
+            margin-bottom: 17px;
             .banner-container{
                 display: block;
             }

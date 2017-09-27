@@ -107,7 +107,7 @@
     overflow: hidden;
     .banner{
         height: 186px;
-        margin: 0 8px 17px 8px;
+        margin: 0 0px 12px 0px;
         .banner-container{
             display: block;
         }
@@ -207,6 +207,7 @@
       }
       .intro-detail{
         text-align: center;
+        background: #fff;
         .detail-title{
           font-size: 18px;
           font-weight: bolder;
@@ -214,7 +215,7 @@
           margin-top: 25px;
         }
         .detail-info{
-          margin-top: 10px;
+          margin: 10px 20px 10px 20px;
         }
       }
     }

@@ -134,22 +134,23 @@
       }
     },
     created(){
-      // var _vue = this;
-      // _vue.$ajax.get(ApiControl.getApi(env, "evaluate"), {
-      //     params:{
-      //         act: 'set_off'
-      //     }
-      // }).
-      // then(res => {
-      //     if(res.data.code == 0){
-      //         console.log(res.data.data.data_list)
-      //         _vue.couponList = res.data.data.coupon_list;
+      var _vue = this;
+      var oid = this.$route.query.oid
+      _vue.$ajax.get(ApiControl.getApi(env, "evaluate"), {
+          params:{
+              act: 'set_off'
+          }
+      }).
+      then(res => {
+          if(res.data.code == 0){
+              console.log(res.data.data.data_list)
+              _vue.couponList = res.data.data.coupon_list;
 
-      //     }else{
-      //         _vue.setErrorMessage(res.data.mes);
-      //     }
+          }else{
+              _vue.setErrorMessage(res.data.mes);
+          }
           
-      // })
+      })
     }
   }
 </script>

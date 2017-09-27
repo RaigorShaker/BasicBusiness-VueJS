@@ -204,7 +204,7 @@
  					.order-prepay{
  						width: 30%;
  						display: inline-block;
- 						text-align: center;
+ 						text-align: left;
  						img{
  							width: 34px;
  							height: 30px;
@@ -230,7 +230,7 @@
  					.order-pretalk{
 						width: 30%;
 						display: inline-block;
-						text-align: center;
+						text-align: right;
 						img{
 							width: 34px;
 							height: 30px;
