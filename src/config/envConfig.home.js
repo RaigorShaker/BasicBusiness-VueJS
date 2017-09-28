@@ -45,7 +45,7 @@ var _defaultApi = {
     product: {
         mainIndex: '/piano/piano/Index/Piano/get_parm',
         actList: '/piano/piano/Index/Piano/get_parm',
-        activityDetail: '/piano/piano/Index/Piano/get_parml',
+        activityDetail: '/piano/piano/Index/Piano/get_parm',
         croomList: '/piano/piano/Index/Piano/get_parm',
         courseList: '/piano/piano/Index/Piano/get_parm',
         sysMsgList: '/piano/piano/Index/Piano/get_parm',
