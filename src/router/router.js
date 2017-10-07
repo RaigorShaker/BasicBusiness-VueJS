@@ -7,7 +7,6 @@ const password = r => require.ensure([], () => r(require('../pages/password')), 
 const actDetail = r => require.ensure([], () => r(require('../pages/activityDetail')), 'actDetail')
 const croomList = r => require.ensure([], () => r(require('../pages/classroomList')), 'croomList')
 const placeOrder = r => require.ensure([], () => r(require('../pages/placeOrder')), 'placeOrder')
-const placeOrderTeacher = r => require.ensure([], () => r(require('../pages/placeOrderTeacher')), 'placeOrderTeacher')
 
 const profile = r => require.ensure([], () => r(require('../pages/profile')), 'profile')
 const subscribe = r => require.ensure([], () => r(require('../pages/subscribe')), 'subscribe')
@@ -31,6 +30,7 @@ const login = r => require.ensure([], () => r(require('../pages/login')), 'login
 const orderDetailCourse = r => require.ensure([], () => r(require('../pages/orderDetailCourse')), 'orderDetailCourse')
 const orderDetailTeacher = r => require.ensure([], () => r(require('../pages/orderDetailTeacher')), 'orderDetailTeacher')
 const orderDetailRoom = r => require.ensure([], () => r(require('../pages/orderDetailRoom')), 'orderDetailRoom')
+const orderTeacher = r => require.ensure([], () => r(require('../pages/placeOrderTeacher')), 'orderTeacher')
 
 export default [{
     path: '/',
@@ -120,7 +120,7 @@ export default [{
         component: sysMsgList
     },
     {
-        path: '/placeOrder:rid',
+        path: '/placeOrder:tid',
         component: placeOrder
     },
     {
@@ -128,12 +128,12 @@ export default [{
         component: placeOrder
     },
     {
-        path: '/placeOrderTeacher:tid',
-        component: placeOrderTeacher
+        path: '/orderTeacher:tid',
+        component: orderTeacher
     },
     {
-        path: '/placeOrderTeacher',
-        component: placeOrderTeacher
+        path: '/orderTeacher',
+        component: orderTeacher
     },
     {
         path: '/actDetail:detailId',

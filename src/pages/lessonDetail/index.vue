@@ -20,7 +20,7 @@
         </div>
         <div class="teacher-awards">
           <img src="../../static/images/evaluate/awards-icon.png"/>
-          {{ item.teacher_info.honor_info }}
+          <span v-html="item.teacher_info.honor_info"></span>
         </div>
       </div>
       <div class="teacher-right">
@@ -267,7 +267,7 @@
         background: rgb(245,243,239); 
         text-align: center;
         img{
-          width: 15px;
+          width: 25px;
           vertical-align: bottom;
         }
       }
@@ -277,10 +277,10 @@
           font-size: 18px;
           font-weight: bolder;
           color: #000;
-          margin-top: 25px;
         }
         .detail-info{
-          margin-top: 10px;
+          margin: 10px 25px 0px 25px;
+          color: #a6a6a6;
         }
       }
     }

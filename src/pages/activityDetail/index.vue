@@ -51,7 +51,7 @@
         name: 'home',
         data() {
             return {
-                baseUrl: 'http://www.studyyx.com',
+                baseUrl: 'http://www.studyyx.com/',
                 detailObj: {},
                 pastle: false,
                 message: '',
@@ -85,10 +85,10 @@
                 }
             }).
             then(res => {
-                if(res.data.data == 0){
-                    _vue.detailObj = res.data.status.data;
+                if(res.data.code == 0){
+                    _vue.detailObj = res.data.data;
                 }else{
-                    _vue.setErrorMessage(res.data.message);
+                    _vue.setErrorMessage(res.data.mes);
                 }
                 
             })

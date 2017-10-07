@@ -2,10 +2,26 @@
 <template>
   <div>
     <div class="order-title">
-      <div class="store-name">{{ storeName }}</div>
-      <div class="store-address">{{ storeAddress }}</div>
+      <!-- <div class="store-name">{{ storeName }}</div>
+      <div class="store-address">{{ storeAddress }}</div> -->
+      <div class="teacher">
+        <div class="teacher-name">{{ teacherName }}</div>
+        <div class="teacher-honor"><img class="honor-pic" src="../../static/images/placeOrder/honor-icon.png" />{{ teacherHonor }}</div>
+      </div>
+      <div class="avator">
+        <img :src="baseUrl + teacherAvator"/>
+      </div>
     </div>
     <div class="order-container">
+      <div class="order-room">
+        <div class="order-desp">
+          <img src="../../static/images/placeOrder/room-icon.png"/><div class="normal-text">{{ storeName }}</div>
+        </div>
+        <div class="room-address">教室地址:{{ storeAddress }}</div>
+        <div class="room-select" @click="handlerRoomClick">
+          {{ selectedRoom }}
+        </div>
+      </div>
       <div class="order-class">
         <div class="order-desp">
           <img src="../../static/images/placeOrder/class-icon.png"/><div class="normal-text">选择教室的房间</div>
@@ -61,7 +77,7 @@
             <div class="order-content">{{ orderContent }}</div>
             <div class="order-all">总价: {{orderTotal }}</div>
           </div>
-          <div class="order-total">{{ orderTotal }}元</div>
+          <div class="order-total">{{ orderReal }}元</div>
         </div>
         <div class="order-desp-second">
           <div class="order-act">
@@ -81,10 +97,17 @@
           <div class="recommend-detail">开始时间前6个小时后取消预约，不支持退款</div>
         </div>
       </div>
-      <div class="order-submit">
+      <div class="order-submit" @click="submitOrder">
         提交订单，去支付
       </div>
     </div>
+    
+    <mt-popup v-model="roomVisible" class="popup-control" position="bottom" pop-transition="popup-fade" :closeOnClickModal="false">
+      <div class="picker-toolbar">  
+        <div class="time-pick-toolbar" @click="confirmRoomSelect">确定</div>  
+      </div>
+      <mt-picker :slots="roomSlots" @change="onRoomChange"></mt-picker>
+    </mt-popup>
 
     <mt-popup v-model="classVisible" class="popup-control" position="bottom" pop-transition="popup-fade" :closeOnClickModal="false">
       <div class="picker-toolbar">  
@@ -99,6 +122,7 @@
       </div>
       <mt-picker :slots="timeSlots" @change="onTimeChange"></mt-picker>
     </mt-popup>
+    <error-message v-bind="{pastle, message}"></error-message>
   </div>
   
 </template>
@@ -111,40 +135,54 @@
     name: 'profile',
     data(){
         return {
+          baseUrl: 'http://www.studyyx.com',
+          pastle: false,
+          message: [],
+          valuableDays: [
+            
+          ],
+          teacherName: '',
+          teacherHonor: '',
+          teacherAvator: '',
+          type: 1,
+          tid: 0,
+          roomId: '',
+          classId:'',
+          timeLimit: 0,
           storeName: '徐汇区天钥桥路店',
           storeAddress: '上海市徐汇区天钥桥路100号',
           selectedClass: '贝多芬房间',
-          selectedTime: '09:00-14:00',
+          selectedRoom: '',
+          selectedTime: '09:00-09:30',
           selectedDays: 0,
+          selectedTotal: [],
           selectMonth: 9,
-          orderContent:"XX费：XX元，XX费：200元",
-          orderTotal:"3000",
-          orderTicket:"150",
+          selectedYear: 2017,
+          orderContent:"",
+          orderTotal:0,
+          orderReal: 0,
+          orderTicket:0,
+          coupon: [],
+          couponId: 0,
+          price: 0,
+          roomVisible: false,
           classVisible: false,
           timeVisible: false,
           monthVisible: false,
+          targetDays: [],
           keywords:'',
-          slots: [
+          roomSlots:[
             {
               flex: 1,
-              values: ['2015-01', '2015-02', '2015-03', '2015-04', '2015-05', '2015-06'],
+              values: [],
               className: 'slot1',
               textAlign: 'center'
-            }, {
-              divider: true,
-              content: '-',
-              className: 'slot2'
-            }, {
-              flex: 1,
-              values: ['2015-01', '2015-02', '2015-03', '2015-04', '2015-05', '2015-06'],
-              className: 'slot3',
-              textAlign: 'left'
             }
           ],
           classSlots:[
             {
               flex: 1,
-              values: ['架子鼓', '钢琴', '小提琴', '三角铁'],
+              values: [],
               className: 'slot1',
               textAlign: 'center'
             }
@@ -152,13 +190,10 @@
           timeSlots:[
             {
               flex: 1,
-              values: ['09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00', '12:00-12:30', '12:30-13:00', '13:00-13:30', '13:30-14:00'],
+              values: [],
               className: 'slot1',
               textAlign: 'center'
             }
-          ],
-          searchResult:[
-
           ],
           weeks:[
             "周日","周一","周二","周三","周四","周五","周六"
@@ -378,50 +413,111 @@
                   return []
               }
           },
+          allInfo: []
         }
       },
       created:function(){
-        document.title = "下单"
+        document.title = "老师下单"
         var _vue = this;
-        var teacherId = this.$route.query.tid
-        _vue.$ajax.get(ApiControl.getApi(env, "croomList"), {
-            params:{
-                act: '07'
-            }
+        this.tid = this.$route.query.tid;
+        // var teacherId = this.$route.query.tid
+        _vue.$ajax.get(ApiControl.getApi(env, "add_order"), {
+          params: {
+            act: "payForTeacher",
+            tid: 11
+          }
         }).
         then(res => {
             if(res.data.code == 0){
-                console.log(res.data.data)
-                _vue.searchResult = [];
-                _vue.searchResult.push(res.data.data.class_1);
-                _vue.searchResult.push(res.data.data.class_2);
+                _vue.allInfo = res.data.data.teacher_info.all_class;
+                _vue.initRoomSlots(res.data.data.teacher_info.all_class);
+                _vue.initTimeSlots(res.data.data.time_list);
+                _vue.coupon = res.data.data.coupon;
+                _vue.teacherName = res.data.data.teacher_info.name;
+                _vue.teacherHonor = res.data.data.teacher_info.desc;
+                _vue.teacherAvator = res.data.data.teacher_info.pic;
             }else{
                 _vue.setErrorMessage(res.data.message);
-            }
-            
+            } 
         })
-
       },
       methods:{
         // 初始化一些东西
         init(){
-            let now = new Date();
-             // 没有默认值
-            this.renderTrueDay(now.getFullYear(),now.getMonth());
+          let now = new Date();
+           // 没有默认值
+          this.renderTrueDay(now.getFullYear(),now.getMonth(),this.valuableDays);
 
         },
-        onValuesChange(picker, values) {
+        initRoomSlots: function(data){
+          var roomArr = [];
+          for(var item in data){
+            roomArr.push(data[item].name);
+          }
+          this.roomSlots[0].values = roomArr;
+          this.selectedRoom = data[0].name;
+          this.roomId = data[0].all_room[0].id;
 
-              if (values[0] > values[1]) {
-                picker.setSlotValue(1, values[0]);
-              }
+          var classArr = [];
+          for(var index in this.allInfo[0].all_room){
+            classArr.push(this.allInfo[0].all_room[index].name);
+          }
+          this.classSlots[0].values = classArr;
+
+          // for(var item in this.allInfo){
+          //   var classArr = [];
+          //   for(var index in this.allInfo[item].all_room){
+          //     classArr.push(this.allInfo[item].all_room[index].name);
+          //   }
+          //   this.classSlots[0].values = classArr;
+          // }
+        },
+        initTimeSlots: function(data){
+          var timeArr = [];
+          for(var item in data){
+            var temp = data[item].start + '-' + data[item].end;
+            timeArr.push(temp);
+          }
+          this.timeSlots[0].values = timeArr;
+        },
+        setErrorMessage: function(message){
+            var _vue = this;
+            this.pastle = true;
+            this.message = message;
+            setTimeout(function(){
+                    _vue.pastle = false;
+                    _vue.message = '';
+            },2000)
         },
         onClassChange(picker,values){
           if(values[0] == undefined){
-            this.selectedClass = '架子鼓'
+            this.selectedClass = ''
           }else{
             this.selectedClass = values[0];
-            
+          }
+          for(var item in this.allInfo){
+            for(var index in this.allInfo[item].all_room){
+              if(this.allInfo[item].all_room[index].name == this.selectedClass){
+                this.price = this.allInfo[item].all_room[index].price;
+                this.roomId = this.allInfo[item].all_room[index].id;
+              }
+            }
+          }
+        },
+        onRoomChange(picker,values){
+          if(values[0] != undefined){
+            this.selectedRoom = values[0];
+          }
+          // change the classSlots
+          for(var item in this.allInfo){
+            if(this.selectedRoom == this.allInfo[item].name){
+              this.classId = this.allInfo[item].cat_id;
+              var classArr = [];
+              for(var index in this.allInfo[item].all_room){
+                classArr.push(this.allInfo[item].all_room[index].name);
+              }
+              this.classSlots[0].values = classArr;
+            }
           }
         },
         onTimeChange(picker,values){
@@ -429,11 +525,20 @@
             this.selectedTime = '09:00-09:30'
           }else{
             this.selectedTime = values[0];
-            
           }
+          if(this.timeLimit > 0){
+            var now = new Date();
+             // 没有默认值
+            // this.renderTrueDay(now.getFullYear(),now.getMonth(),this.valuableDays);
+            // this.getVaribleDate(now.getFullYear(),now.getMonth() + 1);
+          }
+          this.timeLimit++;
         },
         handleClick: function() {
           this.popupVisible = true
+        },
+        handlerRoomClick: function(){
+          this.roomVisible = true;
         },
         handlerClassClick: function(){
           this.classVisible = true;
@@ -442,30 +547,108 @@
           this.timeVisible = true;
         },
         clickDateLeft:function(){
-          this.selectMonth = this.selectMonth - 1 < 1 ? 12 : this.selectMonth - 1;
-          this.renderTrueDay(2017,this.selectMonth - 1 < 1 ? 12 : this.selectMonth - 1);
+          if(this.selectMonth - 1 < 1){
+            this.selectMonth = 12;
+            this.selectedYear = this.selectedYear - 1;
+          }else{
+            this.selectMonth = this.selectMonth - 1
+          }
+          // this.selectMonth = this.selectMonth - 1 < 1 ? 12 : this.selectMonth - 1;
+          let now = new Date();
+          this.getVaribleDate(this.selectedYear,this.selectMonth);
+          // this.renderTrueDay(2017,this.selectMonth - 1 < 1 ? 12 : this.selectMonth - 1,this.valuableDays);
         },
         clickDateRight:function(){
-          this.selectMonth = this.selectMonth + 1 > 12 ? 1 : this.selectMonth + 1;
-          this.renderTrueDay(2017,this.selectMonth - 1 < 1 ? 12 : this.selectMonth - 1);
+          if(this.selectMonth + 1 > 12){
+            this.selectMonth = 1;
+            this.selectedYear = this.selectedYear + 1;
+          }else{
+            this.selectMonth = this.selectMonth + 1
+          }
+
+          // this.selectMonth = this.selectMonth + 1 > 12 ? 1 : this.selectMonth + 1;
+          let now = new Date();
+          this.getVaribleDate(this.selectedYear,this.selectMonth );
+          // this.renderTrueDay(2017,this.selectMonth - 1 < 1 ? 12 : this.selectMonth - 1,this.valuableDays);
         },
         renderDays: function(year,month){
           let firstDayOfMonth = new Date(year,month,1).getDay();
 
+        },
+        getTicket: function(price){
+          var maxTicket = 0;
+          if(this.coupon.length > 0){
+            for(var item in this.coupon){  
+              if(parseFloat(this.coupon[item].quota) <= price && parseFloat(this.coupon[item].quota) >= maxTicket){
+                maxTicket = parseFloat(this.coupon[item].quota);
+                this.orderTicket = parseFloat(this.coupon[item].price);
+                this.couponId = this.coupon[item].id;
+              }
+            }
+          }
+          this.orderReal = this.orderTotal - this.orderTicket;
+        },
+        getVaribleDate: function(year,month){
+          var _vue = this;
+          // var teacherId = this.$route.query.tid
+          _vue.$ajax.get(ApiControl.getApi(env, "free_date"), {
+            params: {
+              type: _vue.type,
+              room_id: _vue.roomId,
+              id: _vue.tid,
+              time: _vue.selectedTime,
+              month: year + '-' + month
+            }
+                          
+          }).
+          then(res => {
+              if(res.data.code == 0){
+                  console.log(res.data.data);
+                  if(res.data.data.length > 0){
+                    for(var x in res.data.data){
+                      var day = res.data.data[x].split('-')[2];
+                      this.valuableDays = [];
+                      this.valuableDays.push(x);
+                    }
+                    var now = new Date();
+                     // 没有默认值
+                    this.renderTrueDay(year,month,this.valuableDays);
+                  }                 
+              }else{
+                  _vue.setErrorMessage(res.data.message);
+              }
+              
+          })
         },
         selectDay:function(k1,k2){
           if(!this.days[k1][k2].disabled){
             if(this.days[k1][k2].selected){
               this.days[k1][k2].selected = false;
               this.selectedDays = this.selectedDays - 1;
+              this.targetDays.splice(this.getIndexInTargetDays(this.days[k1][k2].day),1);
             }else{
               this.days[k1][k2].selected = true;
               this.selectedDays = this.selectedDays + 1;
+              if(this.getIndexInTargetDays(this.days[k1][k2].day) == -1){
+                this.targetDays.push(this.selectedYear + '-' + this.selectMonth + '-' + this.days[k1][k2].day);
+              }
             }
+            console.log(this.targetDays);
+            this.orderTotal = this.price * this.selectedDays;
+            this.getTicket(this.orderTotal);
           }
           
         },
-        renderTrueDay(y,m){
+        containsDay: function(item){
+          for(let i in this.valuableDays){
+            if(item == this.valuableDays[i]){
+              return true;
+            }
+          }
+
+            return false;
+        },
+        renderTrueDay(y,m,v){
           // var y = 2017;
           // var m = 8;//实际计算的是9月份
           var firstDayOfMonth = new Date(y, m, 1).getDay()
@@ -489,12 +672,23 @@
                   k++;
               } 
             }
+            if(this.containsDay(i)){
+              var options = Object.assign(
+                          {day: i,selected:false,disabled:true},
+              );
+              temp[line].push(options);
+            }else{
+              var options = Object.assign(
+                          {day: i,selected:false},
+              );
+              temp[line].push(options);
+            }
 
-            var options = Object.assign(
-                        {day: i,selected:false},
-            );
-            temp[line].push(options);
-
+            // var options = Object.assign(
+            //             {day: i,selected:false},
+            // );
+            // temp[line].push(options);
+            
             if(dow == 6){
               line ++;
             }else if (i == lastDateOfMonth) {
@@ -510,145 +704,91 @@
           }
           this.days = temp
         },
-        // 渲染日期
-        render(y, m) {
-            console.log('year is:' + y);
-            console.log('month is:' + m);
-            let firstDayOfMonth = new Date(y, m, 1).getDay()         //当月第一天
-            let lastDateOfMonth = new Date(y, m + 1, 0).getDate()    //当月最后一天
-            let lastDayOfLastMonth = new Date(y, m, 0).getDate()     //最后一月的最后一天
-            console.log('firstDayOfMonth is:' + firstDayOfMonth);
-            console.log('lastDateOfMonth is:' + lastDateOfMonth);
-            console.log('lastDayOfLastMonth is:' + lastDayOfLastMonth);
-            this.year = y
-            let seletSplit = this.value
-            let i, line = 0,temp = []
-            for (i = 1; i <= lastDateOfMonth; i++) {
-                let dow = new Date(y, m, i).getDay()
-                let k
-                // 第一行
-                if (dow == 0) {
-                    temp[line] = []
-                } else if (i == 1) {
-                    temp[line] = []
-                    k = lastDayOfLastMonth - firstDayOfMonth + 1
-                    for (let j = 0; j < firstDayOfMonth; j++) {
-                        // console.log("第一行",lunarYear,lunarMonth,lunarValue,lunarInfo)
-                        temp[line].push(Object.assign(
-                            {day: k,disabled: true},
-                        ))
-                        k++;
-                    }
-                }
-        
-                // 范围
-                if (this.range) {
-                    // console.log("日期范围",this.getLunarInfo(this.year,this.month+1,i))
-                    let options = Object.assign(
-                        {day: i},
-                     )
-                    if (this.rangeBegin.length > 0) {
-                        let beginTime = Number(new Date(this.rangeBegin[0], this.rangeBegin[1], this.rangeBegin[2]))
-                        let endTime = Number(new Date(this.rangeEnd[0], this.rangeEnd[1], this.rangeEnd[2]))
-                        let stepTime = Number(new Date(this.year, this.month, i))
-                        if (beginTime <= stepTime && endTime >= stepTime) {
-                            options.selected = true
-                        }
-                    }
-                    if (this.begin.length>0) {
-                        let beginTime = Number(new Date(parseInt(this.begin[0]),parseInt(this.begin[1]) - 1,parseInt(this.begin[2])))
-                        if (beginTime > Number(new Date(this.year, this.month, i))) options.disabled = true
-                    }
-                    if (this.end.length>0){
-                        let endTime = Number(new Date(parseInt(this.end[0]),parseInt(this.end[1]) - 1,parseInt(this.end[2])))
-                        if (endTime <  Number(new Date(this.year, this.month, i))) options.disabled = true
-                    }
-                    temp[line].push(options)
-                } else {
-                     // console.log(this.lunar(this.year,this.month,i));
-                    // 单选模式
-                    let chk = new Date()
-                    let chkY = chk.getFullYear()
-                    let chkM = chk.getMonth()
-                    // 匹配上次选中的日期
-                    if (parseInt(seletSplit[0]) == this.year && parseInt(seletSplit[1]) - 1 == this.month && parseInt(seletSplit[2]) == i) {
-                        // console.log("匹配上次选中的日期",lunarYear,lunarMonth,lunarValue,lunarInfo)
-                        temp[line].push(Object.assign(
-                            {day: i,selected: true},
-                        ))
-                        this.today = [line, temp[line].length - 1]
-                    }
-                     // 没有默认值的时候显示选中今天日期
-                    else if (chkY == this.year && chkM == this.month && i == this.day && this.value == "") {
-
-                        // console.log("今天",lunarYear,lunarMonth,lunarValue,lunarInfo)
-                        temp[line].push(Object.assign(
-                            {day: i,selected: true},
-                        ))
-                        this.today = [line, temp[line].length - 1]
-                    }else{
-                        // 普通日期
-                        // console.log("设置可选范围",i,lunarYear,lunarMonth,lunarValue,lunarInfo)
-                        let options = Object.assign(
-                            {day: i,selected:false},
-                        )
-                        if (this.begin.length>0) {
-                            let beginTime = Number(new Date(parseInt(this.begin[0]),parseInt(this.begin[1]) - 1,parseInt(this.begin[2])))
-                            if (beginTime > Number(new Date(this.year, this.month, i))) options.disabled = true
-                        }
-                        if (this.end.length>0){
-                            let endTime = Number(new Date(parseInt(this.end[0]),parseInt(this.end[1]) - 1,parseInt(this.end[2])))
-                            if (endTime <  Number(new Date(this.year, this.month, i))) options.disabled = true
-                        }
-                        temp[line].push(options)
-                    }
-                }
-                // 最后一行
-                if (dow == 6) {
-                    line++
-                } else if (i == lastDateOfMonth) {
-                    let k = 1
-                    for (dow; dow < 6; dow++) {
-                        // console.log("最后一行",lunarYear,lunarMonth,lunarValue,lunarInfo)
-                        temp[line].push(Object.assign(
-                            {day: k,disabled: true},
-                        ))
-                        k++
-                    }
-                }
-            } //end for
-            console.log(temp)
-            this.days = temp
-        },
         confirmClassSelect: function(){
           this.classVisible = false;
-          this.searching('',this.selectType,'');
+          // this.searching('',this.selectType,'');
+          // for(var item in this.allInfo){
+          //   if(this.selectedRoom == this.allInfo[item].name){
+          //     this.classId = this.allInfo[item].cat_id;
+          //   }
+          // }
+          for(var item in this.allInfo){
+            for(var index in this.allInfo[item].all_room){
+              if(this.allInfo[item].all_room[index].name == this.selectedClass){
+                this.classId = this.allInfo[item].cat_id;
+                this.price = this.allInfo[item].all_room[index].price;
+                this.roomId = this.allInfo[item].all_room[index].id;
+              }
+            }
+          }
+        },
+        confirmRoomSelect: function(){
+          this.roomVisible = false;
+          // this.searching('',this.selectType,'');
+          
+          for(var item in this.allInfo){
+            if(this.selectedRoom == this.allInfo[item].name){
+              this.classId = this.allInfo[item].cat_id;
+              var classArr = [];
+              for(var index in this.allInfo[item].all_room){
+                classArr.push(this.allInfo[item].all_room[index].name);
+              }
+              this.classSlots[0].values = classArr;
+            }
+          }
+          // this.searching('',this.selectType,'');
         },
         confirmTimeSelect: function(){
           this.timeVisible = false;
-          this.searching('','',this.selectDistinct);
+          // this.searching('','',this.selectDistinct);
+          var now = new Date();
+           // 没有默认值
+          // this.renderTrueDay(now.getFullYear(),now.getMonth(),this.valuableDays);
+          this.getVaribleDate(this.selectedYear,now.getMonth() + 1);
         },
         confirmMonthSelect: function(){
           this.monthVisible = false;
-          this.searching('','',this.selectMonth);
+          // this.searching('','',this.selectMonth);
         },
-        searching: function(keywords,type,distinct){
-
-          // send search request to server, update result list
+        getIndexInTargetDays: function(item){
+          for(var x in this.targetDays){
+            if(this.targetDays[x].split('-')[2] == item){
+              return x;
+            }
+          }
+          return -1;
+        },
+        submitOrder: function(){
           var _vue = this;
-          _vue.$ajax.get(ApiControl.getApi(env, "croomList"), {
-              params:{
-                  act: '07',
-                  type: type,
-                  keywords: keywords,
-                  distinct: distinct
-              }
+          // var teacherId = this.$route.query.tid
+          _vue.$ajax.post(ApiControl.getApi(env, "order_submit"), {
+              // type: _vue.type,
+              // room_id: _vue.roomId,
+              // id: _vue.tid,
+              // time: _vue.selectedTime,
+              // class_id: _vue.classId,
+              // date: _vue.targetDays,
+              type: 1,
+              room_id: 3,
+              teacher_id: 12,
+              time: [['09:00','09:30']],
+              class_id: 2,
+              date: ['2017-09-28','2017-09-29'] 
+
           }).
           then(res => {
               if(res.data.code == 0){
-                _vue.searchResult = [];
-                  _vue.searchResult.push(res.data.data.class_1);
-                  _vue.searchResult.push(res.data.data.class_2);
+                  console.log(res.data.data);
+                  if(res.data.data.length > 0){
+                    for(var x in res.data.data){
+                      var day = res.data.data[x].split('-')[2];
+                      this.valuableDays = [];
+                      this.valuableDays.push(x);
+                    }
+                    var now = new Date();
+                     // 没有默认值
+                    this.renderTrueDay(year,month,this.valuableDays);
+                  }                 
               }else{
                   _vue.setErrorMessage(res.data.message);
               }
@@ -673,8 +813,11 @@ body{
   .order-title{
     margin: 0px 48px 45px 42px;
     padding-top: 38px;
+    padding-bottom: 20px;
     border-bottom: 2px solid orange;
-    text-align: center;
+    text-align: left;
+    height: 100px;
+    padding-bottom: 10px;
     .store-name{
       font-size: 15px;
       font-weight: bolder;
@@ -688,12 +831,78 @@ body{
       line-height: 14px;
       margin-bottom: 14px;
     }
+    .teacher{
+      display: inline-block;
+      .teacher-name{
+        font-size: 18px;
+        line-height: 20px;
+        font-weight: bolder;
+        color: #303134;
+        padding-bottom: 10px;
+      }
+      .teacher-honor{
+        font-size: 14px;
+        line-height: 18px;
+        color: #303134;
+        .honor-pic{
+          width: 10px;
+          margin-right: 5px;
+        }
+      }
+    }
+    .avator{
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      float: right;
+      img{
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+      }
+    }
   }
   .order-container{
     margin: 0 30px 0 20px;
+    .order-room{
+      padding-bottom: 30px;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+      .room-address{
+        position: absolute;
+        top: 30px;
+        left: 40px;
+        font-size: 12px;
+        line-height: 15px
+      }
+      .order-desp{
+        display: inline-block;
+        img{
+          width: 22px;
+          height: 20px;
+          margin-right: 19px;
+          vertical-align: middle;
+        }
+        .normal-text{
+          font-size: 15px;
+          line-height: 20px;
+          color: #303030;
+          font-weight: bolder;
+          display: inline-block;
+        }
+      }
+      .room-select{
+        display: inline-block;
+        float: right;
+        font-size: 15px;
+        color: #f6ab2c;
+        font-weight: bolder;
+      }
+    }
     .order-class{
       padding-bottom: 30px;
       border-bottom: 1px solid #ddd;
+      padding-top: 30px;
       .order-desp{
         display: inline-block;
         img{
@@ -921,6 +1130,18 @@ body{
       text-align: center;
       margin-top: 56px;
     }
+  }
+  .room-pick-toolbar{
+    text-align: center;
+    display: inline-block;
+    margin-right: 20px;
+    float: right;
+    line-height: 30px;
+    font-size: 16px;
+    background: #ddd;
+    width: 50px;
+    margin-top: 10px;
+    border-radius: 5px;
   }
   .class-pick-toolbar{
     text-align: center;

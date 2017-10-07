@@ -40,7 +40,10 @@ var _defaultApi = {
     //     checkcode: '/api/checkcode',
     //     setPwd: '/api/setPwd',
     //     mesList: '/api/mesList',
-    //     order_Detail: 'api/orderDetail'
+    //     order_Detail: 'api/orderDetail',
+    //     add_order: '/api/addOrder',
+    //     free_date: '/api/freeDate',
+    //     order_submit: '/api/submit'
     // },
     product: {
         mainIndex: '/piano/piano/Index/Piano/get_parm',
@@ -61,7 +64,10 @@ var _defaultApi = {
         checkcode: '/piano/piano/Index/Piano/get_parm',
         setPwd: '/piano/piano/Index/Piano/get_parm',
         mesList: '/piano/piano/Index/Piano/get_parm',
-        order_Detail: '/piano/piano/Index/Piano/get_parm'
+        order_Detail: '/piano/piano/Index/Piano/get_parm',
+        add_order: '/piano/piano/Index/Piano/get_parm',
+        free_date: '/piano/piano/Index/Piano/free_date',
+        order_submit: '/piano/piano/Index/Piano/add_order',
     }
     // product: {
     //     couponList: 'http://txdy.tunnel.qydev.com/tr2/api/item/goodsCoupon/couponList',//优惠券商品列表

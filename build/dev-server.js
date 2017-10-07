@@ -83,6 +83,9 @@ if (context.length) {
 //         '/api/setPwd': '/piano/piano/Index/Piano/get_parm',
 //         '/api/mesList': '/piano/piano/Index/Piano/get_parm',
 //         'api/orderDetail': '/piano/piano/Index/Piano/get_parm',
+//         '/api/addOrder':'/piano/piano/Index/Piano/get_parm',
+//         '/api/freeDate': '/piano/piano/Index/Piano/free_date',
+//         '/api/submit': '/piano/piano/Index/Piano/add_order'
 //     }
 // }))
 
