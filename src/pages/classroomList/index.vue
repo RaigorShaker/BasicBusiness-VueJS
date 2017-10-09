@@ -53,6 +53,7 @@
         </div>
       </router-link>
     </div>
+    <!-- <div id="map-container"></div> -->
   </div>
   
 </template>
@@ -225,6 +226,57 @@ import ApiControl from '../../config/envConfig.home'
     computed:{
     },
     mounted(){
+      // var marker, map = new AMap.Map("map-container", {
+      //         resizeEnable: true,
+      //         center: [116.397428, 39.90923],
+      //         zoom: 13
+      //     });
+
+      // marker = new AMap.Marker({
+      //     icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+      //     position: [116.405467, 39.907761]
+      // });
+      // marker.setMap(map);
+       // AMap.event.addDomListener(document.getElementById('addMarker'), 'click', function() {
+       //        addMarker();
+       //    }, false);
+       // AMap.event.addDomListener(document.getElementById('updateMarker'), 'click', function() {
+       //        marker && updateMarker();
+       //    }, false);
+       // AMap.event.addDomListener(document.getElementById('clearMarker'), 'click', function() {
+       //        if (marker) {
+       //            marker.setMap(null);
+       //            marker = null;
+       //        }
+       //    }, false);
+       // 实例化点标记
+          // function addMarker() {
+          //     if (marker) {
+          //         return;
+          //     }
+          //     marker = new AMap.Marker({
+          //         icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+          //         position: [116.405467, 39.907761]
+          //     });
+          //     marker.setMap(map);
+          // }
+      // function updateMarker() {
+      //         // 自定义点标记内容
+      //         var markerContent = document.createElement("div");
+
+      //         // 点标记中的图标
+      //         var markerImg = document.createElement("img");
+      //         markerImg.className = "markerlnglat";
+      //         markerImg.src = "http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png";
+      //         markerContent.appendChild(markerImg);
+      //   // 点标记中的文本
+      //         var markerSpan = document.createElement("span");
+      //         markerSpan.className = 'marker';
+      //         markerSpan.innerHTML = "Hi，我换新装备啦！";
+      //         markerContent.appendChild(markerSpan);
+      //         marker.setContent(markerContent); //更新点标记内容
+      //         marker.setPosition([116.391467, 39.927761]); //更新点标记位置
+      //     }
     }
 }
 </script>
@@ -436,6 +488,9 @@ body{
     width: 50px;
     margin-top: 10px;
     border-radius: 5px;
+  }
+  #map-container{
+    height: 350px;
   }
 }
 </style>

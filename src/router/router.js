@@ -31,6 +31,7 @@ const orderDetailCourse = r => require.ensure([], () => r(require('../pages/orde
 const orderDetailTeacher = r => require.ensure([], () => r(require('../pages/orderDetailTeacher')), 'orderDetailTeacher')
 const orderDetailRoom = r => require.ensure([], () => r(require('../pages/orderDetailRoom')), 'orderDetailRoom')
 const orderTeacher = r => require.ensure([], () => r(require('../pages/placeOrderTeacher')), 'orderTeacher')
+const toPay = r => require.ensure([], () => r(require('../pages/toPay')), 'toPay')
 
 export default [{
     path: '/',
@@ -134,6 +135,14 @@ export default [{
     {
         path: '/orderTeacher',
         component: orderTeacher
+    },
+    {
+        path: '/toPay',
+        component: toPay
+    },
+    {
+        path: '/toPay:amount:oid',
+        component: toPay
     },
     {
         path: '/actDetail:detailId',

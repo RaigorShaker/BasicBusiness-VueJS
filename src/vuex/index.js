@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import talkingData from '../plugins/talking.data'
 Vue.use(Vuex);
 const store = new Vuex.Store({
 	//state for all components, should import {mapState} from vuex to use it, and set ...mapState method in computed method.

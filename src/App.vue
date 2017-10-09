@@ -26,12 +26,23 @@ import { mapState ,mapMutations} from 'vuex';
       methods: {
         ...mapMutations([
             'setAppId'
-        ])
+        ]),
+        isWeixinBrowser() { 
+            return /micromessenger/i.test(navigator.userAgent)
+        }
       },
       created() {
         this.device = utils.getDevice();
         // if not mobile ,set empty document
         if(this.device == 3) document.body.innerHTML = '';
+
+        if(this.isWeixinBrowser()){
+            var appId = 'wxa6eda0255e015b70';
+            var redirectUri = 'http://www.studyyx.com/piano/piano/Index/Piano/wx_login';
+            redirectUri = encodeURIComponent(redirectUri);
+
+            window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
+        }
 
         // var _vue = this;
         // _vue.$ajax.get(ApiControl.getApi(env, "getAppId"),{

@@ -6,11 +6,11 @@
       <div class="info-left" :class="{'course-up': courseArrowShow,'course-down': !courseArrowShow}" >
         <div class="info-course">
           <div class="course-img">
-            <img :src="baseUrl + teacher.teacher_detail.head_img"/>
+            <img :src="baseUrl + teacher_detail.head_img"/>
           </div>
           <div class="course-info">
-            <div class="course-name">{{ teacher.course_list[0].name }}</div>
-            <div class="course-price">{{ teacher.course_list[0].price }}元/ 节课</div>
+            <div class="course-name">{{ course_list[0].name }}</div>
+            <div class="course-price">{{ course_list[0].price }}元/ 节课</div>
           </div>
         </div>
         <div class="course-intro" :class="{'course-up': courseArrowShow,'course-down': !courseArrowShow}" v-html="teacher.course_list[0].introduce">
@@ -23,15 +23,15 @@
       <div class="info-right" :class="{'info-right-up': courseArrowShow,'info-right-down': !courseArrowShow}">
         
       </div>
-      <router-link :to="'/placeOrderTeacher?tid=' + teacher.teacher_detail.id">
+      <router-link :to="'/orderTeacher?tid=' + teacher_detail.id">
         <div class="submit">
             点击购买
         </div>
       </router-link>
-    </div>
+    </div>’
     <!-- 课程详情 -->
     <div class="detail">
-      <div class="detail-left" :class="{'detail-up': detailArrowShow,'detail-down': !detailArrowShow}" v-html="teacher.teacher_detail.detail_desc">
+      <div class="detail-left" :class="{'detail-up': detailArrowShow,'detail-down': !detailArrowShow}" v-html="teacher_detail.detail_desc">
         
       </div>
       <div class="detail-right" @click="changeDetailArrow" :class="{'detail-right-up': detailArrowShow,'detail-right-down': !detailArrowShow}">
@@ -42,18 +42,18 @@
     <div class="show">
       <div class="lesson">
         <div class="lesson-left">
-          <div class="lesson-name">授课课程: {{ teacher.teacher_detail.name }}</div>
+          <div class="lesson-name">授课课程: {{ teacher_detail.name }}</div>
           <div class="lesson-time">
             <img src="../../static/images/mainIndex/calendar_icon.png"/>
-            {{ teacher.teacher_detail.startDate }} - {{ teacher.teacher_detail.endDate }}
+            {{ teacher_detail.startDate }} - {{ teacher_detail.endDate }}
           </div>
         </div>
         <div class="lesson-right">
-          <img :src="baseUrl + teacher.teacher_detail.head_img"/>
+          <img :src="baseUrl + teacher_detail.head_img"/>
         </div>
       </div>
       <div class="awards">
-        <div class="detail-left" :class="{'detail-up': awardsArrowShow,'detail-down': !awardsArrowShow}" v-html="teacher.teacher_detail.honor_info">
+        <div class="detail-left" :class="{'detail-up': awardsArrowShow,'detail-down': !awardsArrowShow}" v-html="teacher_detail.honor_info">
           
         </div>
         <div class="detail-right" @click="changeAwardsArrow" :class="{'detail-right-up': awardsArrowShow,'detail-right-down': !awardsArrowShow}">
@@ -63,9 +63,9 @@
       </div>
     </div>
     <div class="picture">
-      <div class="title">老师照片<span>/{{ teacher.teacher_pic.length }}</span></div>
+      <div class="title">老师照片<span>/{{ teacher_pic.length }}</span></div>
       <div class="list">
-        <div class="list-item" v-for="item in teacher.teacher_pic">
+        <div class="list-item" v-for="item in teacher_pic">
           <img :src="baseUrl + item.base_url"/>
         </div>
       </div>
@@ -86,12 +86,35 @@
         awardsArrowShow: true,
         baseUrl: 'http://www.studyyx.com',
         teacher:{
-        }
+          teacher_detail:{},
+          course_list: [
+            {
+              name: 'test',
+              price: 330.34
+            }
+          ],
+          teacher_pic: []
+        },
+        teacher_detail: {
+
+        },
+        course_list: [
+          {
+            name: 'test',
+            price: 3443.23
+          }
+        ],
+        teacher_pic: [
+          {
+            base_url: 'test'
+          }
+        ]
       }
     },
     created:function(){
      	document.title = "老师详情"
       var tid = this.$route.query.id
+      console.log(tid)
       var _vue = this;
       _vue.$ajax.get(ApiControl.getApi(env, "teacherDetail"), {
           params:{
@@ -107,6 +130,9 @@
           //     _vue.setErrorMessage(res.data.message);
           // }
           _vue.teacher = res.data.status;
+          _vue.teacher_detail = res.data.status.teacher_detail;
+          _vue.course_list = res.data.status.course_list;
+          _vue.teacher_pic = res.data.status.teacher_pic  == null ? [] : res.data.status.teacher_pic;
       })
 
     },

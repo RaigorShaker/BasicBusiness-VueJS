@@ -131,6 +131,7 @@
   import ajax from '../../config/ajax'
   import utils from '../../config/utils'
   import ApiControl from '../../config/envConfig.home'
+  import { Indicator } from 'mint-ui';
     export default {
     name: 'profile',
     data(){
@@ -424,7 +425,7 @@
         _vue.$ajax.get(ApiControl.getApi(env, "add_order"), {
           params: {
             act: "payForTeacher",
-            tid: 11
+            tid: _vue.tid
           }
         }).
         then(res => {
@@ -446,7 +447,7 @@
         init(){
           let now = new Date();
            // 没有默认值
-          this.renderTrueDay(now.getFullYear(),now.getMonth(),this.valuableDays);
+          this.renderTrueDay(now.getFullYear(),now.getMonth() - 1,this.valuableDays);
 
         },
         initRoomSlots: function(data){
@@ -556,7 +557,7 @@
           // this.selectMonth = this.selectMonth - 1 < 1 ? 12 : this.selectMonth - 1;
           let now = new Date();
           this.getVaribleDate(this.selectedYear,this.selectMonth);
-          // this.renderTrueDay(2017,this.selectMonth - 1 < 1 ? 12 : this.selectMonth - 1,this.valuableDays);
+          this.renderTrueDay(2017,this.selectMonth - 1 < 1 ? 12 : this.selectMonth - 1,this.valuableDays);
         },
         clickDateRight:function(){
           if(this.selectMonth + 1 > 12){
@@ -569,7 +570,7 @@
           // this.selectMonth = this.selectMonth + 1 > 12 ? 1 : this.selectMonth + 1;
           let now = new Date();
           this.getVaribleDate(this.selectedYear,this.selectMonth );
-          // this.renderTrueDay(2017,this.selectMonth - 1 < 1 ? 12 : this.selectMonth - 1,this.valuableDays);
+          this.renderTrueDay(2017,this.selectMonth - 1 < 1 ? 12 : this.selectMonth - 1,this.valuableDays);
         },
         renderDays: function(year,month){
           let firstDayOfMonth = new Date(year,month,1).getDay();
@@ -603,7 +604,6 @@
           }).
           then(res => {
               if(res.data.code == 0){
-                  console.log(res.data.data);
                   if(res.data.data.length > 0){
                     for(var x in res.data.data){
                       var day = res.data.data[x].split('-')[2];
@@ -633,7 +633,6 @@
                 this.targetDays.push(this.selectedYear + '-' + this.selectMonth + '-' + this.days[k1][k2].day);
               }
             }
-            console.log(this.targetDays);
             this.orderTotal = this.price * this.selectedDays;
             this.getTicket(this.orderTotal);
           }
@@ -760,37 +759,44 @@
         },
         submitOrder: function(){
           var _vue = this;
+          Indicator.open({
+            text: '下单中...',
+            spinnerType: 'fading-circle'
+          })
           // var teacherId = this.$route.query.tid
-          _vue.$ajax.post(ApiControl.getApi(env, "order_submit"), {
+          _vue.$ajax.get(ApiControl.getApi(env, "order_submit"), {
+              params: {
+                type: _vue.type,
+                room_id: _vue.roomId,
+                teacher_id: _vue.tid,
+                time: _vue.selectedTime,
+                class_id: _vue.classId,
+                date: _vue.targetDays,
+                coupon_id: _vue.couponId
+              }
               // type: _vue.type,
               // room_id: _vue.roomId,
-              // id: _vue.tid,
+              // teacher_id: _vue.tid,
               // time: _vue.selectedTime,
               // class_id: _vue.classId,
               // date: _vue.targetDays,
-              type: 1,
-              room_id: 3,
-              teacher_id: 12,
-              time: [['09:00','09:30']],
-              class_id: 2,
-              date: ['2017-09-28','2017-09-29'] 
+              // type: 1,
+              // room_id: 3,
+              // teacher_id: 13,
+              // time: [['09:00','09:30']],
+              // class_id: 2,
+              // date: ['2017-09-28','2017-09-29'] 
 
           }).
           then(res => {
               if(res.data.code == 0){
-                  console.log(res.data.data);
-                  if(res.data.data.length > 0){
-                    for(var x in res.data.data){
-                      var day = res.data.data[x].split('-')[2];
-                      this.valuableDays = [];
-                      this.valuableDays.push(x);
-                    }
-                    var now = new Date();
-                     // 没有默认值
-                    this.renderTrueDay(year,month,this.valuableDays);
-                  }                 
+                  setTimeout(function(){
+                    Indicator.close();
+                    _vue.$router.push('/toPay?amount=' + _vue.orderReal + '&oid=' + res.data.data.oid)
+                  },2000)
               }else{
-                  _vue.setErrorMessage(res.data.message);
+                Indicator.close();
+                _vue.setErrorMessage(res.data.mes);
               }
               
           })

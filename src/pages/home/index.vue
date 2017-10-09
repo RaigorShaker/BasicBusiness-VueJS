@@ -63,6 +63,7 @@
                 </div>
             </router-link>
         </div>
+        
         <error-message v-bind="{pastle, message}"></error-message>
     </div>                         
 </template>
@@ -102,6 +103,9 @@
                         _vue.pastle = false;
                         _vue.message = '';
                 },2000)
+            },
+            isWeixinBrowser() { 
+                return /micromessenger/i.test(navigator.userAgent)
             }
         },
         created() {
@@ -123,8 +127,15 @@
                 }
                 
             })
+            
         },
-        mounted() {}
+        mounted() {
+            // var map = new AMap.Map('map-container', {
+            //     resizeEnable: false,
+            //     zoom:11,
+            //     center: [116.397428, 39.90923]
+            // });
+        }
     }
 </script>
 

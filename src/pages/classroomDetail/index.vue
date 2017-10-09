@@ -12,7 +12,7 @@
       <div class="subscribe-price">
         ¥ <span>{{ detailInfo.class_detail.price }}</span> /小时
       </div>
-      <router-link :to="'/placeOrder?id=' + detailInfo.class_detail.room_id">
+      <router-link :to="'/placeOrder?tid=' + detailInfo.class_detail.room_id">
         <div class="submit">
           <img src="../../static/images/evaluate/subscribe.png"/>立即预约
         </div>

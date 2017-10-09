@@ -66,6 +66,7 @@
         </div>
       </router-link>
     </div>
+    <!-- <div id="map-container"></div> -->
   </div>
   
 </template>
@@ -134,6 +135,13 @@
     },
   created:function(){
     document.title = "课程列表"
+
+    // var map = new AMap.Map('map-container', {
+    //   resizeEnable: true,
+    //   zoom:11,
+    //   center: [116.397428, 39.90923]
+    // });
+
 
     var _vue = this;
     _vue.$ajax.get(ApiControl.getApi(env, "courseList"), {
@@ -478,6 +486,5 @@ body{
     border-radius: 5px;
   }
 
-  
 }
 </style>

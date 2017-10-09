@@ -196,12 +196,10 @@
         for(var type in res.data.data.subject_list){
           _vue.typeSlots[0].values.push(res.data.data.subject_list[type].name)
         }
-        console.log(_vue.typeSlots);
         
         for(var distinct in res.data.data.area_list){
           _vue.distinctSlots[0].values.push(res.data.data.area_list[distinct].area)
         }
-        console.log(_vue.distinctSlots);
         _vue.searchResult = res.data.data.teacher_list;
     })
 

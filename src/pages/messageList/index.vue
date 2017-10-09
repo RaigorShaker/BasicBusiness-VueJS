@@ -8,7 +8,7 @@
           </div>
           <div class="act-info">
             <div class="act-normal">热门活动<div class="info-num">{{ msgData.info_acti.no_read }}</div></div>
-            <div class="act-title">{{ msgData.info_acti.acti.title }}</div>
+            <div class="act-title">{{ msgData.info_acti.acti.coment }}</div>
           </div>
         </div>
       </router-link>
@@ -18,8 +18,8 @@
             <img src="../../static/images/message/pay-msg.png"/>
           </div>
           <div class="pay-info">
-            <div class="act-normal">热门活动<div class="info-num">{{ msgData.info_pay.no_read }}</div></div>
-            <div class="pay-title">{{ msgData.info_pay.pay.title }}</div>
+            <div class="act-normal">消费通知<div class="info-num">{{ msgData.info_pay.no_read }}</div></div>
+            <div class="pay-title">{{ msgData.info_pay.pay.coment }}</div>
           </div>
         </div>
       </router-link>
@@ -29,8 +29,8 @@
             <img src="../../static/images/message/sys-msg.png"/>
           </div>
           <div class="sys-info">
-            <div class="act-normal">热门活动<div class="info-num">{{ msgData.info_sysm.no_read }}</div></div>
-            <div class="sys-title">{{ msgData.info_sysm.info.title }}</div>
+            <div class="act-normal">系统消息<div class="info-num">{{ msgData.info_sysm.no_read }}</div></div>
+            <div class="sys-title">{{ msgData.info_sysm.info.coment }}</div>
           </div>
         </div>
       </router-link>
